@@ -1,0 +1,20 @@
+{
+  "name": "application_db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "application_data.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node application_data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "mongodb": "^3.6.2",
+    "validator": "^13.1.1"
+  }
+}

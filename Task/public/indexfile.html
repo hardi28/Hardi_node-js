@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>FORM_VALIDATION</title>
+    
+</head>
+<body>
+    
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <% if(typeof alert != 'undefined' ) { %>
+        <% alret.forEach(function(error){ %>
+         <div class ="alert alert-warning alert-dismissible fade show" role="alert">
+             <%= error.msg %>
+             <button type ="button" class ="class" data-dismiss="alret" aria-label="close">
+                 <span aria-hidden ="true">&times;</span>
+             </button>
+         </div>
+     })
+    } %>
+    <form action ="/forms" method ="POST">
+    <lable> Name: </lable>
+    <input type ="text" name ="dname" value=""/><br/>
+    <lable> Email Id: </lable>
+    <input type ="email" name ="demail" value=""/><br/>
+    <lable> Phone No: </lable>
+    <input type ="number'" name ="dnum" value=""/><br/>
+    <lable> Password: </lable>
+    <input type ="password" name ="Password" value=""/><br/>
+    <button>Submit</button>
+
+    
+    
+    </form>
+    <script type="text/javascript" src="validator.min.js"></script>
+    <script type="text/javascript">
+      
+//can use this syntax for checking availability of fields in body  
+
+  </script> 
+    
+    
+</body>
+</html>

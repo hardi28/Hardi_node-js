@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id = "demo"></p>
+    <form action ="/SubmitData" method ="POST">
+        <lable> Name: </lable><br>
+        <input type ="text" name ="dname" value=""/><br/>
+
+        <lable> Email Id: </lable><br>
+        <input type ="text" name ="demail" value=""/><br/>
+
+        <lable class="Add"> Address: </lable><br>
+        <textarea name ="address" rows ="10" cols="25"value=""></textarea><br/>
+
+        <label for="birthday">Birthday:</label><br>
+        <input type="date" id="birthday" name="birthday"><br>
+        
+        <label for="Gender">Select Gender</label><br>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label>
+        
+        <br>
+        <lable> Phone No: </lable><br>
+        <input type ="number'" name ="dnum" value=""/><br/>
+        
+        <lable> Password: </lable><br>
+        <input type ="password" name ="Password" value=""/><br/>
+        <button class="btn btn-primary" type="submit">Button</button>
+    </form>
+    <style>
+        .Add{
+            text-align: center;
+        }
+    </style>
+</body>
+</body>
+</html>
