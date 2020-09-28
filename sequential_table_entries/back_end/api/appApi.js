@@ -101,6 +101,42 @@ app.post('/sorting',function(request, res) {
     });
   })
 });
+
+var session =require ('express-session');
+var session =require ('session');
+
+
+// ------------------------------------------------------ TRANSACTION INTO TABLES-------------------------------------------------------------
+
+app.post('/transaction' ,function(request,res) {
+    
+   MongoClient.connect(mongoDbURL,  { useUnifiedTopology: true }, function(err, dbClient) {
+    
+    var dataBaseName ='test';
+    const dbCollection = dbClient.db(dataBaseName).collection('accounts');
+    dbCollection.insert([
+      { _id: "hh", balance: 500, pendingTransactions: [] },
+      { _id: "dd", balance:500, pendingTransactions: [] }
+    ], function(error, result) {
+      if (error) {
+            // console.log("Got error");
+            // res.send("Error");
+            const dbCollection = dbClient.db(dataBaseName).collection('transactions');
+            dbCollection.insert(
+              { _id: 3 , source: "hh", destination: "dd", value:200, state: "initial", lastModified: new Date() }
+          )
+        }
+      });
+    /* var t = dbCollection.findOne( { state: "initial" } );
+    console.log(t)
+    var dateThreshold = new Date();
+    dateThreshold.setMinutes(dateThreshold.getMinutes() - 30); */
+   
+  
+  });
+  
+  });
+
 app.listen(3051, () => {
     console.log("server is up on 3051");
   });
