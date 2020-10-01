@@ -364,8 +364,8 @@ app.post('/promise' ,function(request,res) {
             dbCollectTransaction.insertOne({
             transactionId : objectId(),
             _id : 5,
-            Source: "hardiDave",
-            Destination :"Darshan",
+            Source: "hardiD",
+            Destination :"Dars",
             Amount:200,
             state: "Initial"
             
