@@ -234,7 +234,7 @@ function executeTransaction(from, to, value) {
   dbCollectTransaction.insert({
     _id:  transactionId , 
     source: from, 
-    destination: to, 
+    destination:to, 
     value: value, 
     state: "initial"
   });
@@ -293,14 +293,95 @@ function executeTransaction(from, to, value) {
   cleanup(from, to, transactionId);
 }
 
-executeTransaction("Mansi", "Snehal", 200);
+executeTransaction("Mansi", "Snehal",10);
 })
   // });
 
 });
 
+// ------------------------------------------------MongoDB transaction Using Promises-------------------------------------------------
 
+const promUrl ="mongodb://localhost:27017";
 
+app.post('/promise' ,function(request,res) {
+  // var url = 'http://localhost/test';
+  
+  MongoClient.connect(promUrl ,  { useUnifiedTopology: true }, function(err, dbClient) {
+  
+    var dataBaseName ='test';
+    const dbCollection = dbClient.db(dataBaseName).collection('accounts');
+    const dbCollectTransaction = dbClient.db(dataBaseName).collection('transactions');
+    var objectId = require ('mongodb').ObjectID;
+    var transactionId =objectId();
+    var  p =  new Promise((resolve,reject)=>{
+     if ( Promise ){
+       resolve('data inserted')
+     }else{
+       reject('enter valid Documents')
+     }
+    });
+      function State(result,id){
+        // var result = dbCollectTransaction.updateOne(
+        //   { _id: transactionId }, 
+        //   { $set: { state: "pending" } }
+        // );
+       
+            dbCollection.updateOne(
+              { _id: 1, pendingTransactions: { $ne: id } },
+              { $inc: { balance: -200}, $push: { pendingTransactions: [transactionId] } }
+            );
+    
+            dbCollection.updateOne(
+              { _id: 2, pendingTransactions: { $ne: id } },
+              { $inc: { balance: 200 }, $push: { pendingTransactions: [transactionId] } }
+            );
+    
+          dbCollectTransaction.updateOne( 
+            { _id: 5,state:'Initial'/*  pendingTransactions:[transactionId] */ },
+            {$set: {state:'committed' }}
+          );
+       
+    }
+
+    p.then(function() {
+      dbCollection.insertOne({
+         _id: 2,
+          name: "Dars",
+          balance : 2000,
+          pendingTransactions:[transactionId],
+      })
+     
+      
+     p.then(function() {
+      dbCollection.insertOne({
+             _id: 1,
+              name: "hardiD",
+              balance : 5000,
+              pendingTransactions:[transactionId],
+              
+          })
+          p.then(function(){
+            dbCollectTransaction.insertOne({
+            transactionId : objectId(),
+            _id : 5,
+            Source: "hardiDave",
+            Destination :"Darshan",
+            Amount:200,
+            state: "Initial"
+            
+          })
+        })
+      }).catch((err)=>{
+        console.log("Data is Not Inserted")});
+        return query('ROLLBACK');
+        
+    
+    })
+    State()
+ 
+  
+});
+});
 
 
 
