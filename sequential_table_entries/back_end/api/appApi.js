@@ -39,7 +39,7 @@ app.post('/api', urlencodedParser,[] ,function(request, res) {
                var id =request.body.id;
                console.log(result1)
                console.log(result1.insertedIds[0]);
-                // -------- FOR OBJECTID acces ------------
+                // -------------------------------------- FOR OBJECTID acces -----------------------------------
                 // request.body.user_id = objectId();
                 //     console.log(request.body);
                     request.body.user_id = (result1.insertedIds[0].toHexString());
@@ -104,6 +104,7 @@ app.post('/sorting',function(request, res) {
 
 var session =require ('express-session');
 var session =require ('session');
+const { resolve } = require('path');
 
 
 // ------------------------------------------------------ TRANSACTION INTO TABLES-------------------------------------------------------------
@@ -172,20 +173,21 @@ app.post('/transaction' ,function(request,res) {
     var dataBaseName ='test';
     var dbCollection = dbClient.db(dataBaseName).collection('accounts');
     dbCollection.insert([
-            { _id:5, name: "hh", balance: 500, pendingTransactions: [] },
-            { _id:6,name: "dd", balance:500, pendingTransactions: [] }
+            { _id:5, name: "Mansi", balance: 2500, pendingTransactions: [] },
+            { _id:6,name: "Snehal", balance:500, pendingTransactions: [] }
             
             ] )/* , function(error, result){ */
           var dataBaseName ='test';
-          var dbCollection = dbClient.db(dataBaseName).collection('dbCollection');
+          var dbCollection = dbClient.db(dataBaseName).collection('accounts');
         const dbCollectTransaction = dbClient.db(dataBaseName).collection('transactions');
     function cancel(id) {
       dbCollectTransaction.updateOne(
         { _id: id }, 
         { $set: { state: "canceled" } }
       );
-      }
-
+      
+  
+  }
   function rollback(from, to,value, id) {
     // Reverse debit
     dbCollection.updateOne({
@@ -291,11 +293,17 @@ function executeTransaction(from, to, value) {
   cleanup(from, to, transactionId);
 }
 
-executeTransaction("hh", "dd", 200);
+executeTransaction("Mansi", "Snehal", 200);
 })
   // });
 
 });
+
+
+
+
+
+
 app.listen(3051, () => {
     console.log("server is up on 3051");
   });

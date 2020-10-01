@@ -151,7 +151,7 @@ function processReq(response){
    
   })
 }
-//  this is using for response with help of Promise
+//  this is using for response with help of Promise 
 /* makeReq('Google').then(response=>{
   console.log('response received')
   return processReq(response)
