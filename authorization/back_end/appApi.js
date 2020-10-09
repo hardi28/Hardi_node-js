@@ -9,6 +9,7 @@ var mongoDbURL = "mongodb://localhost:27017";
 var dbName = 'hardi_test_db';
 const url = 'http://localhost:3050/SubmitData';
 const { check, validationResult, body, query} = require('express-validator');
+const { json } = require('express');
 const app = express();
 
 app.use(bodyParser.json(request.body));
@@ -30,7 +31,11 @@ app.post('/api', urlencodedParser,[] ,function(request, res) {
                         var rounds = 10;
                         
                        bcrypt.hash(request.body.Password, rounds, (err, hash) => {
-                        dbCollection.insertOne(hash, function(err,result) {
+                         var hashString = hash;
+                         request.body.Password = hash;
+                        //  JSON.parse(hashString);
+                         console.log(hashString);
+                        dbCollection.insertOne(request.body, function(err,result) {
                           if(err)throw err;
                         })
                          console.log(hash);
