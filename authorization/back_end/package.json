@@ -16,5 +16,8 @@
     "express-validator": "^6.6.1",
     "mongodb": "^3.6.2",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
