@@ -9,10 +9,74 @@ const { check, validationResult, body} = require('express-validator');
 const { response } = require('express');
 const { request } = require('http');
 const app = express();
+app.route ('/')
+.get(function(req,res){
+    fs.readFile("./form.html", "UTF-8", function(err, html) {
+        res.writeHead(200,{"content-Type":"text/html"});  
+        res.end(html);
+})
+})
+app.route ('/Login')
+.get(function(req,res){
+    fs.readFile("./login.html", "UTF-8", function(err, html) {
+        res.writeHead(200,{"content-Type":"text/html"});  
+        res.end(html);
+});
+})
+.post(urlencodedParser, [
+      check('Password', 'Minimum 5 length is required')
+    .isLength({min :5})
+   /* check('demail', 'Email should not be empty')
+   .not()
+   .isEmpty()
+   .bail(), 
+   check('demail','email is not valid')
+   .normalizeEmail(), */
+], function (req, response) {
+       var errors = validationResult(req);
+           if (errors.errors.length>0) {  
+               var c = [];
+               var errs = errors.array();
+               for (var i = 0; i < errs.length; i++){
+                       var tempObj ={
+                       'msg' :errs[i].msg,
+                       'param' :errs[i].param 
+                       };
+                       c.push(tempObj);
+                   } 
+                var responseHTML = '<!doctype><html><head><title>Errors</title></head><body>';
+                   c.forEach(function(validationError) {
+                   responseHTML += '<p>Error: '+validationError.msg+' in the field:'+validationError.param+'</p>';
+               });
+             responseHTML += '<button><a href="http://localhost:3000/Login">Back</a></button>';
+             response.send(responseHTML);
 
+           } 
+       else{
+           console.log(req.body);
+           requestData.post({url:'http://localhost:3001/api',
+               method :'POST', 
+               json :(req.body),
+           },
+           function (error, httpResponse, APIresponse) {
+               if (error) {
+                   //console.error(' failed: data is incorrect', error);
+                   //console.log(error);
+                   response.writeHead(404, { 'Content-Type': 'text/json' });
+                   response.end('{"statusCode" :404 , "message": "PAGE NOT FOUND"}');
+               }
+               // console.log(httpResponse);
+               console.log('Server responded with:', APIresponse);
+               response.send(APIresponse);
+           });
+           
+       }
+       
+       
+   });
 app.route('/SubmitData')
   .get(function(req, res) {
-    fs.readFile("./form.html", "UTF-8", function(err, html) {
+    fs.readFile("./registration.html", "UTF-8", function(err, html) {
         res.writeHead(200,{"content-Type":"text/html"});  
         res.end(html);
 
