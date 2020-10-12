@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var fs = require ('fs');
 const requestData = require('request');
+const jwt = require ("jsonwebtoken");
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var validator = require ('validator');
@@ -144,8 +145,6 @@ app.route('/SubmitData')
             
             
         });
-        
-        
         app.listen(3000, () => {
             console.log("server is up on 3000");
           });
