@@ -54,7 +54,7 @@ app.route ('/Login')
            } 
        else{
            console.log(req.body);
-           requestData.post({url:'http://localhost:3001/api',
+           requestData.post({url:'http://localhost:3001/Login',
                method :'POST', 
                json :(req.body),
            },
@@ -62,8 +62,8 @@ app.route ('/Login')
                if (error) {
                    //console.error(' failed: data is incorrect', error);
                    //console.log(error);
-                   response.writeHead(404, { 'Content-Type': 'text/json' });
-                   response.end('{"statusCode" :404 , "message": "PAGE NOT FOUND"}');
+                   response.writeHead(400, { 'Content-Type': 'text/json' });
+                   response.end('{"statusCode" :400 , "message": "ENTER VALID MAIL_ID"}');
                }
                // console.log(httpResponse);
                console.log('Server responded with:', APIresponse);
@@ -133,12 +133,9 @@ app.route('/SubmitData')
                 },
                 function (error, httpResponse, APIresponse) {
                     if (error) {
-                        //console.error(' failed: data is incorrect', error);
-                        //console.log(error);
                         response.writeHead(404, { 'Content-Type': 'text/json' });
                         response.end('{"statusCode" :404 , "message": "PAGE NOT FOUND"}');
                     }
-                    // console.log(httpResponse);
                     console.log('Server responded with:', APIresponse);
                     response.send(APIresponse);
                 });

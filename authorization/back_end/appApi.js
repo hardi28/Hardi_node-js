@@ -9,49 +9,45 @@ var mongoDbURL = "mongodb://localhost:27017";
 var dbName = 'hardi_test_db';
 const url = 'http://localhost:3000/SubmitData';
 const { check, validationResult, body, query} = require('express-validator');
-const { json } = require('express');
+const { json, response } = require('express');
 const jwt = require ("jsonwebtoken");
 const app = express();
 const bcrypt = require('bcrypt');
 
 app.use(bodyParser.json(request.body));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.post('/Login',urlencodedParser,function(req,res){
+app.post('/Login',urlencodedParser,function(req,response){
   MongoClient.connect(mongoDbURL,  { useUnifiedTopology: true }, function(err, dbClient) {
     if(err) {
       console.log("Got error");
         }
-       try{
+       try{ 
         const dbCollection = dbClient.db(dbName).collection('test_auth');
-        var query ={Password: req.body.Password};
-        console.log(query)
-        var rounds = 10;
-        bcrypt.hash(req.body.Password, rounds, (err, hash) => {
-          console.log(req.body);
-          req.body.Password = hash;
-          console.log(req.body);
-          dbCollection.findOne(req.body.Password, function(err,result) {
-            console.log(result);
-            if(err){throw err}
-            else{
-              jwt.sign({body:'req.body.demail'},"secretkey", function(err,token){
-                   res.json({
-                    token,
-                });
-            }); 
-            }
-          });          
-  })
-                
-                 
-      
-        
-        // res.writeHead(200, { 'Content-Type': 'text/json' });
-        // res.end('{"statusCode" : 200, "message": "data is inserted"}');
-    }    
+        var mail = {demail : req.body.demail}
 
-
-// }
+          dbCollection.find(mail).toArray( function(err,result) {
+            console.log(result[0])
+              if (err){ 
+               console.log(err)
+              }
+              else{
+                bcrypt.compare(req.body.Password, result[0].Password, (err,res)=>{
+                  console.log(res);
+                    if (res == false){
+                      response.send("Enter valid password");
+                    }
+                    else{
+                      jwt.sign({result},"secretkey", function(err,token){
+                        response.json({
+                          token,
+                        });
+                    }); 
+                    }    
+                  })
+              }
+            
+            })              
+}
 catch (err) {
   if (err) {
     console.log("Got error check below -");
@@ -119,3 +115,4 @@ app.post('/api', urlencodedParser,[] ,function(request, res) {
 app.listen(3001, () => {
     console.log("server is up on 3001");
   });
+
