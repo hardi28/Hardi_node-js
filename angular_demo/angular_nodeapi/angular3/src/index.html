@@ -1,0 +1,139 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> 
+  
+    <script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>  
+        
+ <style>  
+         table, th , td {  
+            border: 1px solid rgb(10, 3, 3);  
+            border-collapse: collapse;  
+            padding: 5px;  
+         }  
+           
+         table tr:nth-child(odd) {  
+            background-color: lightpink;  
+         }  
+           
+         table tr:nth-child(even) {  
+            background-color: lightyellow;  
+         }  
+      </style>  
+        
+</head>
+<app-root></app-root>
+<!-- apply angular app and controller to our body -->
+<!-- <body ng-app="validationApp" ng-controller="mainController">
+<div class="container">
+<div class="col-sm-8 col-sm-offset-2"> -->
+
+    <!-- PAGE HEADER -->
+    <!-- <div class="page-header"><h1>AngularJS Form Validation</h1></div> -->
+
+    <!-- FORM -->
+    
+    <!-- <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>  -->
+
+        <!-- NAME -->
+        <!-- <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" ng-model="user.name" ng-required="true"ng-pattern="[a-zA-Z]">
+          <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
+      </div> -->
+
+        <!-- USERNAME -->
+        <!-- <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="8">
+        </div> -->
+
+        <!-- EMAIL -->
+        <!-- <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" ng-model="email">
+        </div> -->
+
+       
+        <!-- <button type="submit" class="btn btn-primary" onclick=submitForm()>Submit</button> -->
+        <!-- <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit</button>
+    </form>
+    
+
+</div>
+</div> -->
+
+<h2>AngularJS Sample Application</h2>  
+      <div ng-app = "mainApp" ng-controller = "studentController">  
+           
+         <form name = "studentForm" novalidate>  
+            <table >  
+               <tr>  
+                  <td>Enter first name:</td>  
+                  <td><input name = "firstname" type = "text" ng-model = "firstName" required>  
+                     <span style = "color:red" ng-show = "studentForm.firstname.$dirty && studentForm.firstname.$invalid">  
+                        <span ng-show = "studentForm.firstname.$error.required">First Name is required.</span>  
+                     </span>  
+                  </td>  
+               </tr>  
+                 
+               <tr>  
+                  <td>Enter last name: </td>  
+                  <td><input name = "lastname"  type = "text" ng-model = "lastName" required>  
+                     <span style = "color:red" ng-show = "studentForm.lastname.$dirty && studentForm.lastname.$invalid">  
+                        <span ng-show = "studentForm.lastname.$error.required">Last Name is required.</span>  
+                     </span>  
+                  </td>  
+               </tr>  
+              <tr>  
+                <td>Email: </td><td><input name = "email" type = "email" ng-model = "email" length = "100" required>  
+                   <span style = "color:red" ng-show = "studentForm.email.$dirty && studentForm.email.$invalid">  
+                      <span ng-show = "studentForm.email.$error.required">Email is required.</span>  
+                      <span ng-show = "studentForm.email.$error.email">Invalid email address.</span>  
+                   </span>  
+                </td>  
+              </tr>  
+               <tr>  
+                  <td>Enter Password:</td>  
+                  <td><input name = "Password" type = "password" ng-model = "password" required>  
+                   <span style = "color:red" ng-show = "studentForm.password.$dirty && studentForm.password.$invalid">  
+                      <span ng-show = "studentForm.password.$error.required">Password is required.</span>  
+                   </span>  
+                  </td>  
+                </tr>  
+                <tr>  
+                  <td>  
+                     <button ng-click = "reset()">Reset</button>
+                  </td>  
+                  <td>  
+                     <button type ='submit' ng-disabled = "studentForm.firstname.$dirty &&  
+                        studentForm.firstname.$invalid || studentForm.lastname.$dirty &&  
+                        studentForm.lastname.$invalid || studentForm.email.$dirty &&  
+                        studentForm.email.$invalid|| studentForm.password.$dirty &&  
+                        studentForm.password.$invalid" ng-click="submit()">Submit</button>  
+                        
+                  </td>  
+               </tr>  
+     </table>  
+     
+         </form>  
+      </div>  
+        <script>  
+         var mainApp = angular.module("mainApp", []);  
+         mainApp.controller('studentController', function($scope) {  
+            $scope.reset = function(){  
+               $scope.firstName = "";  
+               $scope.lastName = "";  
+               $scope.email = ""; 
+               $scope.password ="" ;
+            }  
+             $scope.reset();  
+         });  
+      </script>  
+
+</body>
+
+</html>
+
+
