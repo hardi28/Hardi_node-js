@@ -1,8 +1,8 @@
 <div class ="container-fluid mb-5">
   <h1> REGISTRATION  FORM </h1>
-  <div class ="alret alret-danger" *ngIf="errorMsg">
+  <!-- <div class ="alret alret-danger" *ngIf="errorMsg">
     {{errorMsg}}
-  </div>
+  </div> -->
   <form #userForm="ngForm" *ngIf ="!submitted" (ngSubmit) ="onSubmit()" novalidate>
 
     <!-- {{ userForm.value | json }}
