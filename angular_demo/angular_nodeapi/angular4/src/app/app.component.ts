@@ -12,7 +12,8 @@ export class AppComponent {
   title = 'angular4';
   topics =['Angular' , 'React' , 'Vue'];
   topicHasError = true;
-  // submitted = false; in html file add  after ngForm*ngIf ="!submitted"
+  submitted = false;
+  errorMsg =''; 
 
   userModel = new User('hardi' , 'hardi@gmail.com', 1236548544 ,'default','HArdi007');
   
@@ -27,11 +28,11 @@ export class AppComponent {
   }
 
   onSubmit(){
-    // this.submitted = true;
+    this.submitted = true;
    this._enrollmentService.enroll(this.userModel)
    .subscribe(
      data => console.log('sucess!!', data),
-     error => console.error('Error!!', error) 
+     error => this.errorMsg = error.statusText
    )
   }
 }
