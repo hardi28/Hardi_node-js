@@ -1,7 +1,7 @@
 import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { runInThisContext } from 'vm';
+// import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-department-detail',
@@ -33,7 +33,7 @@ export class DepartmentDetailComponent implements OnInit {
   }
 
   goPrevious(){
-    let previousId = this.departmentId-1;
+    let previousId = this.departmentId -1;
     this.router.navigate(['/departments',previousId]);
   }
   goNext(){
@@ -42,6 +42,7 @@ export class DepartmentDetailComponent implements OnInit {
   }
   gotoDepartments(){
     let selectedId = this.departmentId ? this.departmentId :null; 
-    this.router.navigate(['/departments',{id: selectedId}])
+    // this.router.navigate(['/departments',{id: selectedId}])
+    this.router.navigate(['../',{id: selectedId}], {relativeTo:this.route})
   }
 }
