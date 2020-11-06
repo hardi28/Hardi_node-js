@@ -34,7 +34,7 @@
           <li class="menu-item ">
             <a href="#" class="open-dropdown menu-link">
             <span class="menu-label">
-            <span class="menu-name">Menu level 1
+            <span class="menu-name">Create_User
             <span class="menu-arrow"></span>
             </span>
             <span class="menu-info">Contains submenu</span>
@@ -100,9 +100,9 @@
                 </a>
               </li>
               <li class="menu-item">
-                <a href="#" class="open-dropdown menu-link">
+                <a href="create-user" class="open-dropdown menu-link">
                 <span class="menu-label">
-                <span class="menu-name">Menu Level 1.1
+                <span class="menu-name">Add New User
                 <span class="menu-arrow"></span>
                 </span>
                 </span>
@@ -158,7 +158,7 @@
                 </div>
               </a>
               <div class="dropdown-menu  dropdown-menu-right"   >
-                <a class="dropdown-item" href="create-user"> Create User
+                <a class="dropdown-item" href="#"> Add Account
                 </a>
                 <a class="dropdown-item" href="#">  Reset Password</a>
                 <div class="dropdown-divider"></div>
@@ -196,18 +196,17 @@
     </div>
 <div class="card-body ">
     <div class="form-row">
-        <div class="form-group col-md-6">
+      <div class="form-group floating-label col-md-12">
             <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            <input type="email" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="Email" [(ngModel)]="createUser.email" name="email" id="inputEmail4" >
+            <small class="text-danger" [class.d-none]="email.valid || email.untouched ">Email is required</small>
+            
         </div>
-        <div class="form-group col-md-6">
+        <!-- <div class="form-group col-md-6">
             <label for="inputPassword4">Password</label>
             <input type="password" class="form-control" id="inputPassword4"  >
-        </div>
+        </div> -->
     </div>
-
-   
-  
     <div class="form-row">
         <!-- <div class="form-group floating-label show-label col-md-4"> -->
             <label>Designation</label>
@@ -223,7 +222,7 @@
     </div>
    
     <div class="form-group">
-        <button type= "submit" class="btn btn-primary">Submit</button>
+        <button type= "submit"  class="btn btn-primary">Submit</button>
     </div>
 </div>
 </div>
