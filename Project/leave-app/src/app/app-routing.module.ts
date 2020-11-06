@@ -2,7 +2,9 @@ import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CreateUserComponent } from './create-user/create-user.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   {
@@ -11,7 +13,9 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {path:'login',component:LoginComponent},
-  {path:'create-user',component:CreateUserComponent}
+  {path:'create-user',component:CreateUserComponent},
+  {path:'dashboard',component:DashboardComponent},
+  {path:'register',component:RegistrationComponent}
 ];
 
 @NgModule({
