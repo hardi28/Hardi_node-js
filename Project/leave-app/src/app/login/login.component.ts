@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 import { ConstantPool } from '@angular/compiler';
 
 @Component({

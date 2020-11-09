@@ -1,11 +1,36 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 // const Role = require('../models/role');
 const db = 'mongodb://localhost/eventsdb';
 
+let transporter = nodemailer.createTransport({
+    service:'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
+let mailOptions ={
+    from:'hardi.technotery@gmail.com',
+    to:'hardi.technotery@gmail.com',
+    cc:'mansi.technotery@gmail.com',
+    subject:'ohhh hello',
+    text:'www.google.com'
+};
+
+transporter.sendMail(mailOptions,function(err,res){
+    if(err){
+        console.log(err);
+    }else{
+        console.log("Email sent");
+    }
+     
+});
 mongoose.connect(db, { useNewUrlParser: true,useUnifiedTopology: true }, err =>{
     if(err){
         console.error('Error' +err);
@@ -31,6 +56,7 @@ function verifyToken(req, res, next) {
   }
   
 router.post('/login',(req,res)=>{
+    console.log(res);
     let userData = req.body;
      User.findOne({email: userData.email }, (error,user)=>{
         // if(user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
@@ -56,9 +82,9 @@ router.post('/login',(req,res)=>{
         // }
     }); 
 });
-/* router.post('/create-user',verifyToken,(req,res)=>{
-    res.send("enter")
-}) */
+router.post('/create-user',(err,res)=>{
+    console.log(res);
+})
 
 
 module.exports = router;
