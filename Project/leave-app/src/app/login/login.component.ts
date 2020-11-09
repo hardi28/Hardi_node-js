@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-
+import { User } from '../user';
 import { Router } from '@angular/router'
 import { ConstantPool } from '@angular/compiler';
 
@@ -11,14 +11,15 @@ import { ConstantPool } from '@angular/compiler';
 })
 export class LoginComponent implements OnInit {
 
-  loginUserData = {};
+  userModel = new User ('jhon@gmail.com','123');
+  // loginUserData = {};
   constructor(private _auth:AuthService,
     private _router: Router) { }
 
   ngOnInit(): void {
   }
   loginUser(){
-    this._auth.loginUser(this.loginUserData)
+    this._auth.loginUser(this.userModel)
     .subscribe(
       res => {
         console.log(res);

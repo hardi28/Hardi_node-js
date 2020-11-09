@@ -17,13 +17,13 @@
         <div class="form-row">
             <div class="form-group floating-label col-md-12">
                 <label>Email</label>
-                <input type="text" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="Email" [(ngModel)]="loginUserData.email" name="email">
+                <input type="text" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="Email" [(ngModel)]="userModel.email" name="email">
                 <small class="text-danger" [class.d-none]="email.valid || email.untouched ">Email is required</small>
             </div>
 
             <div class="form-group floating-label col-md-12">
                 <label>Password</label>
-                <input type="password" required #password ="ngModel" [class.is-invalid]="password.invalid && password.touched" class="form-control" [(ngModel)]="loginUserData.password" name="password">
+                <input type="password" required #password ="ngModel" [class.is-invalid]="password.invalid && password.touched" class="form-control" [(ngModel)]="userModel.password" name="password">
                 <small class="text-danger" [class.d-none]="password.valid || password.untouched ">Password is required</small>  
             </div>
         </div>
