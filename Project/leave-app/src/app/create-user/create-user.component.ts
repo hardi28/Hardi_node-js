@@ -9,21 +9,30 @@ import { User } from '../user';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
-  // submitData ={};
-  userModel = new User ('jhon@gmail.com','123');
+  topics =['Backend' , 'Front-end'];
+  topicHasError = true;
+  submitData ={};
+  userModel = new User ();
   constructor(private _auth:AuthService,
     private _router: Router) { }
 
   ngOnInit(): void {
   }
-//  submitUser(){
-//     this._auth.submitUser(this. userModel)
-//     .subscribe(
-//       res => {
-//         console.log(res)
+  validateTopic(value){
+    if(value === 'default'){
+      this.topicHasError = true;
+    }else{
+      this.topicHasError = false;
+    }
+  }
+ submitUser(){
+    this._auth.submitUser(this. userModel)
+    .subscribe(
+      res => {
+        console.log(res)
     
-//       },
-//       err => console.log(err)
-//     )
-//   }
+      },
+      err => console.log(err)
+    )
+  }
 }

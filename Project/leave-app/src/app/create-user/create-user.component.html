@@ -162,7 +162,7 @@
                 </a>
                 <a class="dropdown-item" href="#">  Reset Password</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"> Logout</a>
+                <a class="dropdown-item" href="javascript:void(0);" > Logout</a>
               </div>
             </li>
           </ul>
@@ -198,7 +198,7 @@
     <div class="form-row">
       <div class="form-group floating-label col-md-12">
             <label >Email</label>
-            <input type="text" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="email" [(ngModel)]="userModel.email"  name="email" >
+            <input type="email" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="email" [(ngModel)]="userModel.email"  name="email" >
             <small class="text-danger" [class.d-none]="email.valid || email.untouched ">Email is required</small>
             
         </div>
@@ -209,20 +209,17 @@
     </div>
     <div class="form-row">
         <!-- <div class="form-group floating-label show-label col-md-4"> -->
-            <label>Designation</label>
-            <select class="form-control">
-                <option selected>Choose...</option>
-                <option>Front-end</option>
-                <option>Back-end/PHP</option>
-                <option>Back-end/NodeJS</option>
-                <option>others</option>
-            </select>
+          <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)"  #topic ="ngModel" [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic">
+
+            <option value="default"> Select Your Choice</option>
+            <option *ngFor="let topic of topics">{{ topic }}</option>
+          </select>
         <!-- </div> -->
 
     </div>
    
     <div class="form-group">
-        <button type= "submit" (click) ="submitUser()" class="btn btn-primary">Submit</button>
+        <button type= "submit" (click)="submitUser()" class="btn btn-primary">Submit</button>
     </div>
 <!-- </div> -->
   </form>

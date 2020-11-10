@@ -4,8 +4,10 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
 const mongoose = require('mongoose');
-const User = require('../models/user');
-// const Role = require('../models/role');
+const User = require('../models/user.js');
+const userSchema = User.user;
+const userRole = User.role;
+var randomstring = require("randomstring");
 const db = 'mongodb://localhost/eventsdb';
 
 let transporter = nodemailer.createTransport({
@@ -18,7 +20,7 @@ let transporter = nodemailer.createTransport({
 let mailOptions ={
     from:'hardi.technotery@gmail.com',
     to:'hardi.technotery@gmail.com',
-    cc:'mansi.technotery@gmail.com',
+    // cc:'mansi.technotery@gmail.com',
     subject:'ohhh hello',
     text:'www.google.com'
 };
@@ -27,7 +29,7 @@ transporter.sendMail(mailOptions,function(err,res){
     if(err){
         console.log(err);
     }else{
-        console.log("Email sent");
+        // console.log("Email sent");
     }
      
 });
@@ -56,9 +58,9 @@ function verifyToken(req, res, next) {
   }
   
 router.post('/login',(req,res)=>{
-    console.log(res);
+    // console.log(res);
     let userData = req.body;
-     User.findOne({email: userData.email }, (error,user)=>{
+    userSchema.findOne({email: userData.email }, (error,user)=>{
         // if(user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
             /* console.log("Hello");
          }else{ */
@@ -66,13 +68,21 @@ router.post('/login',(req,res)=>{
                 console.log(error);
             }else{
             if(!user){
-                res.status(401).send('invalid Email');
+                res.status(401).json({"data": "invalid Email"});
             }else{
                 if(user.password !== userData.password){
                     res.status(401).send('invalid password');
                 }else{
-                  let payload = { subject: user._id }
-                  let token = jwt.sign(payload, 'secretKey');
+                    userRole.findOne({role_id: user.role_id}, (err, role) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log(role);
+                        }
+                    });
+                    let payload = { subject: user._id }
+                    let token = jwt.sign(payload, 'secretKey');
                     res.status(200).send({user});
                 }
             }
@@ -82,9 +92,25 @@ router.post('/login',(req,res)=>{
         // }
     }); 
 });
-router.post('/create-user',(err,res)=>{
-    console.log(res);
-})
+router.post('/create-user',(req,res)=>{
+        console.log(req.body);
+        let userData = req.body;
+        User.findOne({email:userData.email} ,(error,user)=>{
+            
+            if(error){
+                console.log(error);
+            }else{
+                if( userData.email == user.email  ){
+                    console.log("already Enter into Db")
+                }else{
+                console.log(user);
+                let random_token = randomstring.generate();
+                res.status(200).send({random_token});
+                }
+              }
+        });
+   
+});
 
 
 module.exports = router;

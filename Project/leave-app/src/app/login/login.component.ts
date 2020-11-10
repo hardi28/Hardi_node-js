@@ -11,7 +11,7 @@ import { ConstantPool } from '@angular/compiler';
 })
 export class LoginComponent implements OnInit {
 
-  userModel = new User ('jhon@gmail.com','123');
+  userModel = new User ();
   // loginUserData = {};
   constructor(private _auth:AuthService,
     private _router: Router) { }
