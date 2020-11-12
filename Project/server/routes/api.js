@@ -4,11 +4,16 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
 const mongoose = require('mongoose');
-const User = require('../models/user.js');
+const User = require('../models/user');
+const bodyParser = require('body-parser');
 const userSchema = User.user;
 const userRole = User.role;
 var randomstring = require("randomstring");
 const db = 'mongodb://localhost/eventsdb';
+
+const { check, validationResult} = require('express-validator');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 
 let transporter = nodemailer.createTransport({
     service:'gmail',
@@ -57,8 +62,42 @@ function verifyToken(req, res, next) {
     next()
   }
   
-router.post('/login',(req,res)=>{
-    // console.log(res);
+router.post('/login',urlencodedParser,[check('email')
+.not()
+.isEmpty()
+.withMessage('email can not be an empty field')
+.bail(),
+check('email','enter proper mailId')
+.normalizeEmail(),
+check('password')
+.not()
+.isEmpty()
+.withMessage('password can not be an empty field')
+
+],(req,res)=>{
+    var errors = validationResult(req);
+    console.log(errors)
+    if (errors.errors.length>0) {  
+        var c =[];
+        var errs = errors.array();
+        for (var i = 0; i < errs.length; i++){
+            var tempObj ={
+              'msg' :errs[i].msg,
+              'param' :errs[i].param 
+            };
+            c.push(tempObj);
+            // console.log(c);
+        }
+       
+            c.forEach(function(validationError) {
+                var responseHTML = '<!doctype><html><head><title>Errors<table><tr><th>name:</th> <th> number</th></tr></table></title></head><body>';
+                responseHTML += '<p>'+ JSON.stringify(validationError) + '</p>';    
+                // res.json(validationError);
+                    
+            });
+    }
+    else{
+    
     let userData = req.body;
     userSchema.findOne({email: userData.email }, (error,user)=>{
         // if(user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
@@ -68,7 +107,7 @@ router.post('/login',(req,res)=>{
                 console.log(error);
             }else{
             if(!user){
-                res.status(401).json({"data": "invalid Email"});
+                // res.status(401).json({"data": "invalid Email"});
             }else{
                 if(user.password !== userData.password){
                     res.status(401).send('invalid password');
@@ -83,19 +122,21 @@ router.post('/login',(req,res)=>{
                     });
                     let payload = { subject: user._id }
                     let token = jwt.sign(payload, 'secretKey');
-                    res.status(200).send({user});
+                    res.status(200).send({token});
                 }
             }
         }
         // else{
         //     console.log("Enter valid mail_id");
         // }
+
     }); 
+}
 });
 router.post('/create-user',(req,res)=>{
         console.log(req.body);
         let userData = req.body;
-        User.findOne({email:userData.email} ,(error,user)=>{
+        userSchema.findOne({email:userData.email} ,(error,user)=>{
             
             if(error){
                 console.log(error);

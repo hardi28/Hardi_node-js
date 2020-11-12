@@ -26,7 +26,7 @@ export class CreateUserComponent implements OnInit {
     }
   }
  submitUser(){
-    this._auth.submitUser(this. userModel)
+    this._auth.submitUser(this.userModel)
     .subscribe(
       res => {
         console.log(res)
@@ -35,4 +35,17 @@ export class CreateUserComponent implements OnInit {
       err => console.log(err)
     )
   }
+  loggedIn(){
+    return !!localStorage.getItem('token')
+  }
+  logoutUser(){
+    // this._auth.loginUser(this.userModel)
+    // .subscribe(
+    //   res => {
+    localStorage.removeItem('token')
+    this._router.navigate(['/login'])
+    //   },
+    //   err=> console.log(err)
+    // )
+  } 
 }

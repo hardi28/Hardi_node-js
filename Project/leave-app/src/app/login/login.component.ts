@@ -23,15 +23,14 @@ export class LoginComponent implements OnInit {
     .subscribe(
       res => {
         console.log(res);
+        // if (res.user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
+        //   localStorage.setItem('token',res.token);
+        //   this._router.navigate(['/register']);
 
-        if (res.user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
-          localStorage.setItem('token',res.token);
-          this._router.navigate(['/register']);
-
-        }else{
+        // }else{
           localStorage.setItem('token',res.token);
           this._router.navigate(['/dashboard']);
-        }
+        // }
         // localStorage.setItem('token',res.token)
         // this._router.navigate(['/dashboard'])
       },

@@ -17,13 +17,15 @@
         <div class="form-row">
             <div class="form-group floating-label col-md-12">
                 <label>Email</label>
-                <input type="text" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="Email" [(ngModel)]="userModel.email" name="email">
-                <small class="text-danger" [class.d-none]="email.valid || email.untouched ">Email is required</small>
+                <input type="text" required #email ="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" [class.is-invalid]="email.invalid && email.touched" class ="form-control" name="email" [(ngModel)]="userModel.email">
+                <small class="text-danger"  *ngIf="email.errors?.untouched">Email is required</small>
+                <small class ="text-danger" *ngIf ="email.erros?.pattern">Enter Valid mail_id</small>
             </div>
+            <!-- </div> -->
 
             <div class="form-group floating-label col-md-12">
                 <label>Password</label>
-                <input type="password" required #password ="ngModel" [class.is-invalid]="password.invalid && password.touched" class="form-control" [(ngModel)]="userModel.password" name="password">
+                <input type="password" required #password ="ngModel" [class.is-invalid]="password.invalid && password.touched" class="form-control" name="password" [(ngModel)]="userModel.password">
                 <small class="text-danger" [class.d-none]="password.valid || password.untouched ">Password is required</small>  
             </div>
         </div>
