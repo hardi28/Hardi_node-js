@@ -8,9 +8,9 @@ const userSchema = new Schema({
 });
 // console.log(userSchema);
 
-exports.user = mongoose.model('user', userSchema, 'users');
+module.exports = mongoose.model('user', userSchema, 'users');
 
-var roleSchema = new Schema({
+/* var roleSchema = new Schema({
     // email: String,
     // password: String,
     // role_id :[{type: Schema.Types.ObjectId, ref: 'role_user'}]
@@ -18,3 +18,4 @@ var roleSchema = new Schema({
 });
 
 exports.role = mongoose.model('role', roleSchema, 'role_user'); 
+ */

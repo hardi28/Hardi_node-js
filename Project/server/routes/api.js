@@ -5,9 +5,10 @@ const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
 const mongoose = require('mongoose');
 const User = require('../models/user');
+const role = require('../models/role')
 const bodyParser = require('body-parser');
-const userSchema = User.user;
-const userRole = User.role;
+// const userSchema = User.user;
+// const userRole = User.role;
 var randomstring = require("randomstring");
 const db = 'mongodb://localhost/eventsdb';
 
@@ -66,43 +67,48 @@ router.post('/login',urlencodedParser,[check('email')
 .not()
 .isEmpty()
 .withMessage('email can not be an empty field')
-.bail(),
-check('email','enter proper mailId')
-.normalizeEmail(),
+.bail()
+.isEmail()
+.normalizeEmail()
+.withMessage('Enter valid emailID'),
 check('password')
 .not()
 .isEmpty()
 .withMessage('password can not be an empty field')
 
 ],(req,res)=>{
+    var emailError = "";
     var errors = validationResult(req);
-    console.log(errors)
+    // console.log(errors)
     if (errors.errors.length>0) {  
         var c =[];
+        // var tempObj={};
         var errs = errors.array();
         for (var i = 0; i < errs.length; i++){
             var tempObj ={
               'msg' :errs[i].msg,
               'param' :errs[i].param 
             };
-            c.push(tempObj);
-            // console.log(c);
+            if(errs[i].param === "password" && c.length === 0){
+                c.push("");
+            }
+            c.push(tempObj.msg);
+            
         }
-       
-            c.forEach(function(validationError) {
-                var responseHTML = '<!doctype><html><head><title>Errors<table><tr><th>name:</th> <th> number</th></tr></table></title></head><body>';
-                responseHTML += '<p>'+ JSON.stringify(validationError) + '</p>';    
-                // res.json(validationError);
-                    
-            });
+        if(c.length !== 2){
+            c.push("");
+        }
+        console.log(tempObj);
+        // console.log(c);
+        emailError = c;
+            emailError = JSON.stringify(emailError);
+            console.log(emailError);
+            res.send(emailError);
     }
     else{
     
     let userData = req.body;
-    userSchema.findOne({email: userData.email }, (error,user)=>{
-        // if(user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
-            /* console.log("Hello");
-         }else{ */
+    User.findOne({email: userData.email }, (error,user)=>{
             if(error){
                 console.log(error);
             }else{
@@ -112,7 +118,7 @@ check('password')
                 if(user.password !== userData.password){
                     res.status(401).send('invalid password');
                 }else{
-                    userRole.findOne({role_id: user.role_id}, (err, role) => {
+                    role.findOne({role_id: user.role_id}, (err, role) => {
                         if (err) {
                             console.log(err);
                         }
@@ -126,17 +132,14 @@ check('password')
                 }
             }
         }
-        // else{
-        //     console.log("Enter valid mail_id");
-        // }
-
+        
     }); 
 }
 });
 router.post('/create-user',(req,res)=>{
         console.log(req.body);
         let userData = req.body;
-        userSchema.findOne({email:userData.email} ,(error,user)=>{
+        User.findOne({email:userData.email} ,(error,user)=>{
             
             if(error){
                 console.log(error);

@@ -18,15 +18,17 @@
             <div class="form-group floating-label col-md-12">
                 <label>Email</label>
                 <input type="text" required #email ="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" [class.is-invalid]="email.invalid && email.touched" class ="form-control" name="email" [(ngModel)]="userModel.email">
-                <small class="text-danger"  *ngIf="email.errors?.untouched">Email is required</small>
-                <small class ="text-danger" *ngIf ="email.erros?.pattern">Enter Valid mail_id</small>
+                <small class="text-danger"   [class.d-none]="email.valid || email.untouched " *ngIf="!emailError[0]" >Email is required</small>
+                <small class ="text-danger" *ngIf="emailError[0]" >{{ emailError[0] }}</small>
             </div>
             <!-- </div> -->
 
             <div class="form-group floating-label col-md-12">
                 <label>Password</label>
                 <input type="password" required #password ="ngModel" [class.is-invalid]="password.invalid && password.touched" class="form-control" name="password" [(ngModel)]="userModel.password">
-                <small class="text-danger" [class.d-none]="password.valid || password.untouched ">Password is required</small>  
+                <small class="text-danger"  [class.d-none]="password.valid || password.untouched " *ngIf="!emailError[1]">Password is required</small>  
+                <small class ="text-danger" *ngIf="emailError[1]" >{{ emailError[1] }}</small>
+                <!-- <small class ="text-danger" *ngIf="emailError.length == 1" >{{ emailError[0] }}</small> -->
             </div>
         </div>
 

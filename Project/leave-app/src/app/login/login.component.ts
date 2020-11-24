@@ -10,7 +10,7 @@ import { ConstantPool } from '@angular/compiler';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+emailError ="";
   userModel = new User ();
   // loginUserData = {};
   constructor(private _auth:AuthService,
@@ -22,17 +22,20 @@ export class LoginComponent implements OnInit {
     this._auth.loginUser(this.userModel)
     .subscribe(
       res => {
+        // console.log(typeof(res));
         console.log(res);
-        // if (res.user.role_id == '5fa3fd36a1af2d5a5800d0fd'){
-        //   localStorage.setItem('token',res.token);
-        //   this._router.navigate(['/register']);
-
-        // }else{
-          localStorage.setItem('token',res.token);
-          this._router.navigate(['/dashboard']);
-        // }
-        // localStorage.setItem('token',res.token)
-        // this._router.navigate(['/dashboard'])
+        if(res.token){
+          console.log("Login Works")
+            localStorage.setItem('token',res.token);
+            this._router.navigate(['/dashboard']);
+        }
+          else{
+            this.emailError = res;
+          console.log("asa");
+          console.log("adf");
+          //   this.emailError = res;
+          //  console.log("asa");
+          }
       },
       err => console.log(err),
     )
