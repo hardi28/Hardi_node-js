@@ -31,8 +31,6 @@ emailError ="";
         }
           else{
             this.emailError = res;
-          console.log("asa");
-          console.log("adf");
           //   this.emailError = res;
           //  console.log("asa");
           }

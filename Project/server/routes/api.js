@@ -118,12 +118,12 @@ check('password')
                 if(user.password !== userData.password){
                     res.status(401).send('invalid password');
                 }else{
-                    role.findOne({role_id: user.role_id}, (err, role) => {
+                    role.find({_id: user.role_id}, (err, role) => {
                         if (err) {
                             console.log(err);
                         }
                         else {
-                            console.log(role);
+                            console.log(role[0].role_name);
                         }
                     });
                     let payload = { subject: user._id }
