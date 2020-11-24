@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { User } from '../user';
 import { Router } from '@angular/router';
 import { ConstantPool } from '@angular/compiler';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,8 @@ import { ConstantPool } from '@angular/compiler';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-emailError ="";
+  emailError ="";
+  //  role =new role();
   userModel = new User ();
   // loginUserData = {};
   constructor(private _auth:AuthService,
@@ -24,10 +26,15 @@ emailError ="";
       res => {
         // console.log(typeof(res));
         console.log(res);
-        if(res.token){
+        if(res.token ){
           console.log("Login Works")
             localStorage.setItem('token',res.token);
-            this._router.navigate(['/dashboard']);
+            if (res.role_id==1){
+              this._router.navigate(['/dashboard']);
+            }
+            else{
+              this._router.navigate(['/register']);
+            }
         }
           else{
             this.emailError = res;

@@ -118,17 +118,22 @@ check('password')
                 if(user.password !== userData.password){
                     res.status(401).send('invalid password');
                 }else{
+                    let role_id ;
                     role.find({_id: user.role_id}, (err, role) => {
                         if (err) {
                             console.log(err);
                         }
                         else {
-                            console.log(role[0].role_name);
+                            role_id=role[0].id;
+                            console.log(role_id);
+                            let payload = { subject: user._id }
+                            let token = jwt.sign(payload, 'secretKey');
+                            res.status(200).send({token, role_id});
                         }
                     });
-                    let payload = { subject: user._id }
-                    let token = jwt.sign(payload, 'secretKey');
-                    res.status(200).send({token});
+                    // let payload = { subject: user._id }
+                    // let token = jwt.sign(payload, 'secretKey');
+                    // res.status(200).send({token, role_id});
                 }
             }
         }
