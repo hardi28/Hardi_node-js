@@ -126,9 +126,10 @@ check('password')
                         else {
                             role_id=role[0].id;
                             console.log(role_id);
-                            let payload = { subject: user._id }
+                            let payload = { subject: user._id, role_id: role_id}
                             let token = jwt.sign(payload, 'secretKey');
                             res.status(200).send({token, role_id});
+                            
                         }
                     });
                     // let payload = { subject: user._id }
