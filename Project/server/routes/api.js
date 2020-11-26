@@ -150,6 +150,15 @@ router.post('/create-user',(req,res)=>{
         if(!res){
         tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
             console.log("user" ,user)
+            // if(error){
+            //     console.log(error);
+            // }else{
+            //     if( userData.email == user  ){
+            //         console.log("already Enter into Db")
+            //     }else{
+            //     console.log(user);
+            //     }
+            //   }
         });
     }
     else{
