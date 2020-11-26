@@ -16,30 +16,6 @@ const db = 'mongodb://localhost/eventsdb';
 const { check, validationResult} = require('express-validator');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-
-let transporter = nodemailer.createTransport({
-    service:'gmail',
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
-    }
-});
-let mailOptions ={
-    from:'hardi.technotery@gmail.com',
-    to:'hardi.technotery@gmail.com',
-    // cc:'mansi.technotery@gmail.com',
-    subject:'ohhh hello',
-    text:'www.google.com'
-};
-
-transporter.sendMail(mailOptions,function(err,res){
-    if(err){
-        console.log(err);
-    }else{
-        // console.log("Email sent");
-    }
-     
-});
 mongoose.connect(db, { useNewUrlParser: true,useUnifiedTopology: true }, err =>{
     if(err){
         console.error('Error' +err);
@@ -149,16 +125,36 @@ router.post('/create-user',(req,res)=>{
 
         if(!res){
         tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
-            console.log("user" ,user)
-            // if(error){
-            //     console.log(error);
-            // }else{
-            //     if( userData.email == user  ){
-            //         console.log("already Enter into Db")
-            //     }else{
-            //     console.log(user);
-            //     }
-            //   }
+            console.log("user" ,user);
+            if (user){
+            let transporter = nodemailer.createTransport({
+                service:'gmail',
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD
+                }
+            });
+            let mailOptions ={
+                from:'hardi.technotery@gmail.com',
+                to:userData.email,
+                // cc:'mansi.technotery@gmail.com',
+                subject:'Login please',
+                
+                text:'http://localhost:4208/login'
+            };
+            
+            transporter.sendMail(mailOptions,function(err,res){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log("Email sent");
+                }
+                 
+            });
+        }
+        else{
+            console.log("Error Occurs",error)
+        }
         });
     }
     else{
