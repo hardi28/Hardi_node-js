@@ -124,39 +124,38 @@ router.post('/create-user',(req,res)=>{
     tempUser.findOne({email:userData.email},(err,res)=>{
 
         if(!res){
-        tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
-            console.log("user" ,user);
-            if (user){
-            let transporter = nodemailer.createTransport({
-                service:'gmail',
-                auth: {
-                    user: process.env.EMAIL,
-                    pass: process.env.PASSWORD
-                }
-            });
-            let mailOptions ={
-                from:'hardi.technotery@gmail.com',
-                to:userData.email,
-                // cc:'mansi.technotery@gmail.com',
-                subject:'Login please',
-                
-                text:'http://localhost:4208/login'
-            };
+            tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
+                console.log("user" ,user);
+                if (user){
+                    let transporter = nodemailer.createTransport({
+                        service:'gmail',
+                        auth: {
+                            user: process.env.EMAIL,
+                            pass: process.env.PASSWORD
+                        }
+                    });
+                    let mailOptions ={
+                    from:'hardi.technotery@gmail.com',
+                    to:userData.email,
+                    // cc:'mansi.technotery@gmail.com',
+                    subject:'Login please',
+                    text:'http://localhost:4208/login'
+                    };
             
-            transporter.sendMail(mailOptions,function(err,res){
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log("Email sent");
-                }
+                    transporter.sendMail(mailOptions,function(err,res){
+                        if(err){
+                            console.log(err);
+                        }else{
+                        console.log("Email sent");
+                        }
                  
+                    });
+                }
+                else{
+                    console.log("Error Occurs",error)
+                }
             });
         }
-        else{
-            console.log("Error Occurs",error)
-        }
-        });
-    }
     else{
         console.log("Already in database");
     }
