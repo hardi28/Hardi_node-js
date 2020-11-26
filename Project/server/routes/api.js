@@ -84,84 +84,95 @@ check('password')
     }
     else{
     
-    let userData = req.body;
-    User.findOne({email: userData.email }, (error,user)=>{
+        let userData = req.body;
+        User.findOne({email: userData.email }, (error,user)=>{
             if(error){
                 console.log(error);
-            }else{
-            if(!user){
-                // res.status(401).json({"data": "invalid Email"});
-            }else{
-                if(user.password !== userData.password){
-                    res.status(401).send('invalid password');
-                }else{
-                    let role_id ;
-                    role.find({_id: user.role_id}, (err, role) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            role_id=role[0].id;
-                            console.log(role_id);
-                            let payload = { subject: user._id, role_id: role_id}
-                            let token = jwt.sign(payload, 'secretKey');
-                            res.status(200).send({token, role_id});
-                            
-                        }
-                    });
+            }
+            else{
+                if(!user){
+                    // res.status(401).json({"data": "invalid Email"});
+                }
+                else{
+                    if(user.password !== userData.password){
+                        res.status(401).send('invalid password');
+                    }else{
+                        let role_id ;
+                        role.find({_id: user.role_id}, (err, role) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                role_id=role[0].id;
+                                console.log(role_id);
+                                let payload = { subject: user._id, role_id: role_id}
+                                let token = jwt.sign(payload, 'secretKey');
+                                res.status(200).send({token, role_id});
+                                
+                            }
+                        });
+                    }
                 }
             }
-        }
         
-    }); 
-}
+        }); 
+    }
 });
 router.post('/create-user',(req,res)=>{
         console.log(req.body);
         let userData = req.body;
-        let random_token = randomstring.generate();
+        let random_token = randomstring.generate({
+            length: 12,
+          });
     //-------------------------------- Add users by admin into tempCollection---------------------------
-    tempUser.findOne({email:userData.email},(err,res)=>{
+    User.findOne({email:userData.email},(err,res)=>{
+        // console.log("user table info",res);
+        if (res){
+            console.log("already in database:",res);
+        }
+        else{
+            tempUser.findOne({email:userData.email},(err,res)=>{
 
-        if(!res){
-            tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
-                console.log("user" ,user);
-                if (user){
-                    let transporter = nodemailer.createTransport({
-                        service:'gmail',
-                        auth: {
-                            user: process.env.EMAIL,
-                            pass: process.env.PASSWORD
+                if(!res){
+                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
+                        console.log("user" ,user);
+                        if (user){
+                            let transporter = nodemailer.createTransport({
+                                service:'gmail',
+                                auth: {
+                                    user: process.env.EMAIL,
+                                    pass: process.env.PASSWORD
+                                }
+                            });
+                            let mailOptions ={
+                            from:'hardi.technotery@gmail.com',
+                            to:userData.email,
+                            // cc:'mansi.technotery@gmail.com',
+                            subject:'Login please',
+                            text:'http://localhost:5000/create-password'
+                            };
+                    
+                            transporter.sendMail(mailOptions,function(err,res){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                console.log("Email sent");
+                                }
+                        
+                            });
                         }
-                    });
-                    let mailOptions ={
-                    from:'hardi.technotery@gmail.com',
-                    to:userData.email,
-                    // cc:'mansi.technotery@gmail.com',
-                    subject:'Login please',
-                    text:'http://localhost:4208/login'
-                    };
-            
-                    transporter.sendMail(mailOptions,function(err,res){
-                        if(err){
-                            console.log(err);
-                        }else{
-                        console.log("Email sent");
+                        else{
+                            console.log("Error Occurs",error)
                         }
-                 
                     });
                 }
                 else{
-                    console.log("Error Occurs",error)
+                    console.log("Already in database");
                 }
             });
         }
-    else{
-        console.log("Already in database");
-    }
 });
    
 });
-
 
 module.exports = router;
