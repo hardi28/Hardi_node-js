@@ -5,7 +5,8 @@ const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
 const mongoose = require('mongoose');
 const User = require('../models/user');
-const role = require('../models/role')
+const role = require('../models/role');
+const tempUser = require('../models/temp-user')
 const bodyParser = require('body-parser');
 // const userSchema = User.user;
 // const userRole = User.role;
@@ -132,9 +133,6 @@ check('password')
                             
                         }
                     });
-                    // let payload = { subject: user._id }
-                    // let token = jwt.sign(payload, 'secretKey');
-                    // res.status(200).send({token, role_id});
                 }
             }
         }
@@ -145,20 +143,19 @@ check('password')
 router.post('/create-user',(req,res)=>{
         console.log(req.body);
         let userData = req.body;
-        User.findOne({email:userData.email} ,(error,user)=>{
-            
-            if(error){
-                console.log(error);
-            }else{
-                if( userData.email == user.email  ){
-                    console.log("already Enter into Db")
-                }else{
-                console.log(user);
-                let random_token = randomstring.generate();
-                res.status(200).send({random_token});
-                }
-              }
+        let random_token = randomstring.generate();
+    //-------------------------------- Add users by admin into tempCollection---------------------------
+    tempUser.findOne({email:userData.email},(err,res)=>{
+
+        if(!res){
+        tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
+            console.log("user" ,user)
         });
+    }
+    else{
+        console.log("Already in database");
+    }
+});
    
 });
 
