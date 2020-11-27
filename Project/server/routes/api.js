@@ -16,10 +16,10 @@ var randomstring = require("randomstring");
 const db = 'mongodb://localhost/eventsdb';
 
 router.use (cors());
-var corsOptions ={
+/* var corsOptions ={
     origin :'*',
     optionsSuccessStatus: 200
-}
+} */
 const { check, validationResult} = require('express-validator');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -157,7 +157,7 @@ router.post('/create-user',(req,res)=>{
                             to:userData.email,
                             // cc:'mansi.technotery@gmail.com',
                             subject:'Login please',
-                            text:`http://localhost:5000/api/create-password?${tokenRandom}`
+                            text:`http://localhost:4208/create-password?${tokenRandom}`
                             };
                     
                             transporter.sendMail(mailOptions,function(err,res){
@@ -183,9 +183,9 @@ router.post('/create-user',(req,res)=>{
    
 });
 
-router.get('/create-password',cors(corsOptions),function(req,res){
-    res.sendFile(path.join(__dirname + '/html/create-password.html'));
-});
+// router.get('/create-password',cors(corsOptions),function(req,res){
+//     res.sendFile(path.join(__dirname + '/html/create-password.html'));
+// });
 
 
 router.post('/create-password',(req,res)=>{ 

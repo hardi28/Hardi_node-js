@@ -2,6 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { CreatePasswordComponent } from './create-password/create-password.component';
 
 import { CreateUserComponent } from './create-user/create-user.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path:'create-user',
     component:CreateUserComponent
+  },
+  {
+    path:'create-password',
+    component:CreatePasswordComponent
   },
   {
     path:'dashboard',

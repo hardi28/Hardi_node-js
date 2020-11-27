@@ -9,6 +9,7 @@ export class AuthService {
   private baseURL = 'http://localhost:5000';
   private _loginUrl = this.baseURL+"/api/login";
   private _url = this.baseURL+"/api/create-user";
+  private _createPassword = this.baseURL+"/api/create-password";
   constructor(private http: HttpClient ,
     private _router: Router) { }
     loginUser(user){
@@ -26,4 +27,7 @@ export class AuthService {
       localStorage.removeItem('token')
       this._router.navigate(['/login'])
     } 
+   SubmitForm(user){
+    return this.http.post<any>(this._createPassword,user)
+   }
 }
