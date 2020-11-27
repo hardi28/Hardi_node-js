@@ -4,6 +4,8 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
 const mongoose = require('mongoose');
+const cors = require('cors');
+var path = require('path');
 const User = require('../models/user');
 const role = require('../models/role');
 const tempUser = require('../models/temp-user')
@@ -13,6 +15,11 @@ const bodyParser = require('body-parser');
 var randomstring = require("randomstring");
 const db = 'mongodb://localhost/eventsdb';
 
+router.use (cors());
+var corsOptions ={
+    origin :'*',
+    optionsSuccessStatus: 200
+}
 const { check, validationResult} = require('express-validator');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -122,7 +129,7 @@ router.post('/create-user',(req,res)=>{
         console.log(req.body);
         let userData = req.body;
         let random_token = randomstring.generate({
-            length: 12,
+            // length: 12,
           });
     //-------------------------------- Add users by admin into tempCollection---------------------------
     User.findOne({email:userData.email},(err,res)=>{
@@ -135,7 +142,7 @@ router.post('/create-user',(req,res)=>{
 
                 if(!res){
                     tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
-                        console.log("user" ,user);
+                        console.log("user" ,user.random_token);
                         if (user){
                             let transporter = nodemailer.createTransport({
                                 service:'gmail',
@@ -144,12 +151,13 @@ router.post('/create-user',(req,res)=>{
                                     pass: process.env.PASSWORD
                                 }
                             });
+                            var tokenRandom = user.random_token;
                             let mailOptions ={
                             from:'hardi.technotery@gmail.com',
                             to:userData.email,
                             // cc:'mansi.technotery@gmail.com',
                             subject:'Login please',
-                            text:'http://localhost:5000/create-password'
+                            text:`http://localhost:5000/api/create-password?${tokenRandom}`
                             };
                     
                             transporter.sendMail(mailOptions,function(err,res){
@@ -173,6 +181,16 @@ router.post('/create-user',(req,res)=>{
         }
 });
    
+});
+
+router.get('/create-password',cors(corsOptions),function(req,res){
+    res.sendFile(path.join(__dirname + '/html/create-password.html'));
+});
+
+
+router.post('/create-password',(req,res)=>{ 
+    console.log("HEYYYYYY"); 
+    // tempUser.findOne({email:})
 });
 
 module.exports = router;
