@@ -10,6 +10,7 @@ const User = require('../models/user');
 const role = require('../models/role');
 const tempUser = require('../models/temp-user')
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 // const userSchema = User.user;
 // const userRole = User.role;
 var randomstring = require("randomstring");
@@ -182,31 +183,50 @@ router.post('/create-user',(req,res)=>{
    
 });
 
-// router.get('/create-password',cors(corsOptions),function(req,res){
-//     res.sendFile(path.join(__dirname + '/html/create-password.html'));
-// });
-
+router.post('/random-token',(req,err)=>{
+    
+     console.log("Token bind with url:", req.body);
+     tempUser.findOne({random_token:req.body.id},(res,req)=>{
+      
+            console.log("req.....",req);
+            if(!req){
+                console.log("Invalid Url");
+                // res.send("InvalidUrl")
+            }
+        
+         
+    })
+    // }
+});
 
 router.post('/create-password',(req,err)=>{ 
-    // console.log("HEYYYYYY",req.body.password); 
-    var userPassword = req.body;
+    console.log("HEYYYYYY",req.body); 
+    var userPassword = req.body.userModel;
     console.log(userPassword);  
-    if(!userPassword){
-        console.log("Please enter password:");
+    if(!userPassword.password && !userPassword.confirm_password){
+        console.log("Please enter password");
     }    
     else{
         if (!userPassword.password){
-            console.log("Please enter Password field")
+            console.log("Please enter Password field");
         }
         else if(!userPassword.confirm_password){
-            console.log("Please enter Confirm Password field")
-        }
-        else if (userPassword.password == userPassword.confirm_password){
-            console.log("Password Matched Sucessfully")
+            console.log("Please enter Confirm Password field");
         }
         else{
-    
-        }
+            if (userPassword.password == userPassword.confirm_password){
+                console.log("Password Matched Sucessfully");
+               
+               /*  const saltRounds = 10;
+                bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
+                    console.log(hash);
+                }); */
+            }
+            else{
+                
+            }
+        } 
+        
     }
     
     

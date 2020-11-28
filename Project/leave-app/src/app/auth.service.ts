@@ -10,24 +10,31 @@ export class AuthService {
   private _loginUrl = this.baseURL+"/api/login";
   private _url = this.baseURL+"/api/create-user";
   private _createPassword = this.baseURL+"/api/create-password";
+  private _linkVerify = this.baseURL+"/api/random-token";
+
   constructor(private http: HttpClient ,
     private _router: Router) { }
     loginUser(user){
-      return this.http.post<any>(this._loginUrl,user)
+      return this.http.post<any>(this._loginUrl,user);
       
     }
     
     submitUser(user){
-      return this.http.post<any>(this._url,user)
+      return this.http.post<any>(this._url,user);
     }
     loggedIn(){
-      return !!(localStorage.getItem('token'))
+      return !!(localStorage.getItem('token'));
     }
     logoutUser(){
-      localStorage.removeItem('token')
-      this._router.navigate(['/login'])
+      localStorage.removeItem('token');
+      this._router.navigate(['/login']);
     } 
-   SubmitForm(user){
-    return this.http.post<any>(this._createPassword,user)
+   SubmitForm(user_details){
+    return this.http.post<any>(this._createPassword,user_details);
+   }
+   checkToken(token)
+   {
+    //  console.log("hhhhhhhhhhhhhhhhhhh")
+    return this.http.post<any>(this._linkVerify,token);
    }
 }
