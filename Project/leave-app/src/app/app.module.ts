@@ -12,6 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { CreatePasswordComponent } from './create-password/create-password.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
     RegistrationComponent,
     DashboardComponent,
     CreatePasswordComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
