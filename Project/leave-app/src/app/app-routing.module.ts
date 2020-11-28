@@ -7,6 +7,7 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
 import { CreateUserComponent } from './create-user/create-user.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
@@ -21,7 +22,7 @@ const routes: Routes = [
     component:CreateUserComponent
   },
   {
-    path:'create-password',
+    path:'create-password/:id',
     component:CreatePasswordComponent
   },
   {
@@ -29,7 +30,11 @@ const routes: Routes = [
     component:DashboardComponent,
     canActivate:[AuthGuard]
   },
-  {path:'register',component:RegistrationComponent}
+  {path:'register',component:RegistrationComponent},
+  {
+    path:'**',
+    component:PageNotFoundComponent
+  }
 ];
 
 @NgModule({

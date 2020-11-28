@@ -155,9 +155,8 @@ router.post('/create-user',(req,res)=>{
                             let mailOptions ={
                             from:'hardi.technotery@gmail.com',
                             to:userData.email,
-                            // cc:'mansi.technotery@gmail.com',
                             subject:'Login please',
-                            text:`http://localhost:4208/create-password?${tokenRandom}`
+                            text:`http://localhost:4208/create-password/${tokenRandom}`
                             };
                     
                             transporter.sendMail(mailOptions,function(err,res){
@@ -188,9 +187,29 @@ router.post('/create-user',(req,res)=>{
 // });
 
 
-router.post('/create-password',(req,res)=>{ 
-    console.log("HEYYYYYY"); 
-    // tempUser.findOne({email:})
+router.post('/create-password',(req,err)=>{ 
+    // console.log("HEYYYYYY",req.body.password); 
+    var userPassword = req.body;
+    console.log(userPassword);  
+    if(!userPassword){
+        console.log("Please enter password:");
+    }    
+    else{
+        if (!userPassword.password){
+            console.log("Please enter Password field")
+        }
+        else if(!userPassword.confirm_password){
+            console.log("Please enter Confirm Password field")
+        }
+        else if (userPassword.password == userPassword.confirm_password){
+            console.log("Password Matched Sucessfully")
+        }
+        else{
+    
+        }
+    }
+    
+    
 });
 
 module.exports = router;

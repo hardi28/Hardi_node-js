@@ -22,29 +22,32 @@ export class CreatePasswordComponent implements OnInit {
        var password = form.userModel.password ? form.userModel.password : ""; 
        var confirm_password = form.userModel.confirm_password ? form.userModel.confirm_password : ""; 
         
-				// If password not entered 
 				if (password === "") {
 					alert ("Please enter Password"); 
         }
 				else if (confirm_password === "") {
 					alert ("Please enter confirm password"); 
         }
-				// If Not same return False.	 
+	 
 				else if (password !== confirm_password) { 
-					alert ("Password did not match: Please try again...") 
+					alert ("Password did not match: Please try again..."); 
 					
 				} 
-				// If same return True. 
+			
 				else{ 
-					alert("Password Matched Successfully : Password Created!") 
+					alert("Password Matched Successfully : Password Created!"); 
 					
 				}  
-      } 
-      /* SubmitForm(){
+    
         this._auth.SubmitForm(this.userModel)
+        .subscribe(
         res =>{
           console.log("this is",res);
         }
-      } */
+      ),
+      err=>{
+        console.log(err);
+      }
+      } 
 }
 
