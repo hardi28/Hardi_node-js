@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { generate } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
 @Component({
@@ -26,7 +27,13 @@ export class CreatePasswordComponent implements OnInit {
     this._auth.checkToken(this.tokenID)
         .subscribe(
         res =>{
-          console.log("this is",res);
+          console.log(res.is_invalid);
+        },
+        error =>{
+          if(error.error.is_invalid){
+            this._router.navigate(['random']);
+          }
+          console.log("asaa",{...error});
         }
       )
   }

@@ -4,7 +4,8 @@ const userSchema = new Schema({
     email: String,
     password: String,
     role_id: Object,
-    random_token:String
+    random_token:String,
+    topic : String
 });
 // console.log(userSchema);
 

@@ -183,24 +183,31 @@ router.post('/create-user',(req,res)=>{
    
 });
 
-router.post('/random-token',(req,res)=>{
-    
+router.post('/random-token',async(req,res)=>{
+    let is_invalid = false;
      console.log("Token bind with url:", req.body);
-     tempUser.findOne({random_token:req.body.id},(res,req)=>{
-      
-            console.log("req.....",req);
-            if(!req){
+     var id = req.body.id
+     await tempUser.findOne({random_token:req.body.id},(req,res)=>{
+            console.log("res.....",res);
+            if(!res || res.is_expired){
+                is_invalid= true;
                 console.log("Invalid Url");
-                // res.json("Invalid URL");
-            }
-        
-         
-    })
+            }else{
+                tempUser.updateOne({random_token:id},
+                    { $set: { 'is_expired': 'true'}},((res,err)=>{
+                   console.log(res);
+                })        
+             
+        )
+    }
+    });
+    res.status(400).json({is_invalid:is_invalid});
     // }
 });
 
 router.post('/create-password',(req,res)=>{ 
     console.log("HEYYYYYY",req.body); 
+    var tokenId = req.body.randomToken.id;
     var userPassword = req.body.userModel;
     console.log(userPassword);  
     if(!userPassword.password && !userPassword.confirm_password){
@@ -221,10 +228,21 @@ router.post('/create-password',(req,res)=>{
             console.log("Password did not Matched ");
         }
         else{
+            let email = "";
+            let topic = "";
+
             if (userPassword.password == userPassword.confirm_password){
-            res.status(200).json({done: "Password Matched Sucessfully"});
-            console.log("Password Matched Sucessfully");
-               
+            // res.status(200).json({done: "Password Matched Sucessfully"});
+            // console.log("Password Matched Sucessfully");
+            tempUser.findOne({random_token: tokenId},(req,res)=>{
+                email = res.email;
+                topic = res.topic;
+                console.log(email, topic, tokenId, userPassword.password);
+               /*  User.create({email:email,topic:topic,password:userPassword.password},(req,res)=>{
+                    console.log("hello",res);
+                }); */
+            });
+
                /*  const saltRounds = 10;
                 bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
                     console.log(hash);
