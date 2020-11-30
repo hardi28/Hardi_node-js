@@ -32,6 +32,9 @@ export class AuthService {
    SubmitForm(user_details){
     return this.http.post<any>(this._createPassword,user_details);
    }
+   /* checkPassword(form){
+     return this.http.post<any>(this._createPassword,form);
+   } */
    checkToken(token)
    {
     //  console.log("hhhhhhhhhhhhhhhhhhh")

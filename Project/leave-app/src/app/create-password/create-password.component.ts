@@ -10,6 +10,7 @@ import { User } from '../user';
 export class CreatePasswordComponent implements OnInit {
   
   public tokenID;
+  public response ="";
   constructor(private _router:Router,
               private _auth:AuthService,
               private route:ActivatedRoute) { }
@@ -34,9 +35,11 @@ export class CreatePasswordComponent implements OnInit {
   //     console.log(tokenID);
   // }
   checkPassword(form){
-    
+     /* if (form == ""){
+       console.log("Atleast enter something");
+     } */
     // console.log(form.userModel.password);
-       var password = form.userModel.password ? form.userModel.password : ""; 
+       /* var password = form.userModel.password ? form.userModel.password : ""; 
        var confirm_password = form.userModel.confirm_password ? form.userModel.confirm_password : ""; 
         
 				if (password === "") {
@@ -54,11 +57,13 @@ export class CreatePasswordComponent implements OnInit {
 				else{ 
 					alert("Password Matched Successfully : Password Created!"); 
         }  
-
+ */
           this._auth.SubmitForm({userModel: this.userModel, randomToken: this.tokenID})
         .subscribe(
         res =>{
-          console.log("this is",res);
+         console.log(res);
+          this.response = res;
+          // console.log("backendkkhnlnknk", res.confirm_password)
         }
       ),
     
@@ -66,6 +71,7 @@ export class CreatePasswordComponent implements OnInit {
       err=>{
         console.log(err);
       }
+     
       } 
 }
 

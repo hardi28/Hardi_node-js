@@ -183,7 +183,7 @@ router.post('/create-user',(req,res)=>{
    
 });
 
-router.post('/random-token',(req,err)=>{
+router.post('/random-token',(req,res)=>{
     
      console.log("Token bind with url:", req.body);
      tempUser.findOne({random_token:req.body.id},(res,req)=>{
@@ -191,7 +191,7 @@ router.post('/random-token',(req,err)=>{
             console.log("req.....",req);
             if(!req){
                 console.log("Invalid Url");
-                // res.send("InvalidUrl")
+                // res.json("Invalid URL");
             }
         
          
@@ -199,23 +199,31 @@ router.post('/random-token',(req,err)=>{
     // }
 });
 
-router.post('/create-password',(req,err)=>{ 
+router.post('/create-password',(req,res)=>{ 
     console.log("HEYYYYYY",req.body); 
     var userPassword = req.body.userModel;
     console.log(userPassword);  
     if(!userPassword.password && !userPassword.confirm_password){
+        res.status(200).json({all:"Please enter Something"});
         console.log("Please enter password");
     }    
     else{
         if (!userPassword.password){
+            res.status(200).json({pass: "Please enter Password field"});
             console.log("Please enter Password field");
         }
         else if(!userPassword.confirm_password){
+            res.status(200).json({confirm_password: "Please enter Confirm Password"});
             console.log("Please enter Confirm Password field");
+        }
+        else if (userPassword.password != userPassword.confirm_password){
+            res.status(200).json({all: "Password did not Matched "});
+            console.log("Password did not Matched ");
         }
         else{
             if (userPassword.password == userPassword.confirm_password){
-                console.log("Password Matched Sucessfully");
+            res.status(200).json({done: "Password Matched Sucessfully"});
+            console.log("Password Matched Sucessfully");
                
                /*  const saltRounds = 10;
                 bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
@@ -223,7 +231,7 @@ router.post('/create-password',(req,err)=>{
                 }); */
             }
             else{
-                
+
             }
         } 
         
