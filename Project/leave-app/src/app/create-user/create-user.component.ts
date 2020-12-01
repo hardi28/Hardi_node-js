@@ -16,7 +16,10 @@ export class CreateUserComponent implements OnInit {
   constructor(private _auth:AuthService,
     private _router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+   if(!localStorage.getItem('token')){
+    this._router.navigate(['/login'])
+   }
   }
   validateTopic(value){
     if(value === 'default'){
