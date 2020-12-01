@@ -126,9 +126,38 @@ check('password')
         }); 
     }
 });
-router.post('/create-user',(req,res)=>{
+router.post('/create-user',urlencodedParser,[check('email')
+.not()
+.isEmpty()
+.withMessage('email can not be an empty field')],(req,res)=>{
+    let userData = req.body;
+    var emailError = "";
+    var errors = validationResult(req);
+    // console.log(errors)
+    if (errors.errors.length>0) {  
+        var c =[];
+        // var tempObj={};
+        var errs = errors.array();
+        for (var i = 0; i < errs.length; i++){
+            var tempObj ={
+              'msg' :errs[i].msg,
+              'param' :errs[i].param 
+            };
+            c.push(tempObj.msg);
+            
+        }
+        if(c.length !== 2){
+            c.push("");
+        }
+        console.log(tempObj);
+        // console.log(c);
+        emailError = c;
+            emailError = JSON.stringify(emailError);
+            console.log(emailError);
+            res.send(emailError);
+    }
+    else{
         console.log(req.body);
-        let userData = req.body;
         let random_token = randomstring.generate({
             // length: 12,
           });
@@ -177,10 +206,10 @@ router.post('/create-user',(req,res)=>{
                 else{
                     console.log("Already in database");
                 }
-            });
-        }
-});
-   
+                });
+            }   
+    });
+    }
 });
 
 router.post('/random-token',async(req,res)=>{
