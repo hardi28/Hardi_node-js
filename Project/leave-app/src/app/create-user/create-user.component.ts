@@ -11,6 +11,8 @@ import { User } from '../user';
 export class CreateUserComponent implements OnInit {
   emailError ="";
   topics =['Backend' , 'Front-end'];
+  roles = ['admin','employee'];
+  roleHasError = true;
   topicHasError = true;
   submitData ={};
   userModel = new User ();
@@ -27,6 +29,13 @@ export class CreateUserComponent implements OnInit {
       this.topicHasError = true;
     }else{
       this.topicHasError = false;
+    }
+  }
+  validateRole(value){
+    if(value === 'default'){
+      this.roleHasError = true;
+    }else{
+      this.roleHasError = false;
     }
   }
   submitUser()

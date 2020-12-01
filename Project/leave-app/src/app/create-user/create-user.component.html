@@ -218,6 +218,17 @@
         <!-- </div> -->
 
     </div>
+    <br>
+    <div class="form-row">
+      <!-- <div class="form-group floating-label show-label col-md-4"> -->
+        <!-- <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)"  #topic ="ngModel" [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic"> -->
+          <select (blur)="validateRole(role.value)" #role ="ngModel"  (change)="validateRole(role.value)" [class.is-invalid]="roleHasError && role.touched" class="custom-select" name="role" [(ngModel)]="userModel.role">
+            <option value="" selected disabled> Select Role</option>
+            <option *ngFor="let role of roles">{{ role }}</option>
+        </select>
+      <!-- </div> -->
+
+    </div>
    
     <div class="form-group" id ="submitButton">
         <button type= "submit" (click)="submitUser()" class="btn btn-primary">Submit</button>

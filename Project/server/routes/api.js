@@ -157,7 +157,7 @@ router.post('/create-user',urlencodedParser,[check('email')
             res.send(emailError);
     }
     else{
-        console.log(req.body);
+        console.log("req body",req.body);
         let random_token = randomstring.generate({
             // length: 12,
           });
@@ -169,9 +169,8 @@ router.post('/create-user',urlencodedParser,[check('email')
         }
         else{
             tempUser.findOne({email:userData.email},(err,res)=>{
-
                 if(!res){
-                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic ,is_used:0, is_expired:0} ,(error,user)=>{
+                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role: userData.role,is_used:0, is_expired:0 } ,(error,user)=>{ 
                         console.log("user" ,user.random_token);
                         if (user){
                             let transporter = nodemailer.createTransport({
