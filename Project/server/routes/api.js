@@ -261,21 +261,30 @@ router.post('/create-password',(req,res)=>{
             let topic = "";
 
             if (userPassword.password == userPassword.confirm_password){
-            // res.status(200).json({done: "Password Matched Sucessfully"});
+            res.status(200).json({done: "Password Created Sucessfully"});
             // console.log("Password Matched Sucessfully");
             tempUser.findOne({random_token: tokenId},(req,res)=>{
-                email = res.email;
-                topic = res.topic;
-                console.log(email, topic, tokenId, userPassword.password);
-               /*  User.create({email:email,topic:topic,password:userPassword.password},(req,res)=>{
-                    console.log("hello",res);
-                }); */
+                if(is_expired='true')
+                {
+                    email = res.email;
+                    topic = res.topic;
+                    password = userPassword.password,userPassword.confirm_password;
+                    console.log(email, topic, tokenId, password);
+                    const saltRounds = 10;
+                    bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
+                        console.log("passwordf.mlvfmdkfsnfcsjkdhfjksdhfvjsd",hash);
+                        // hash = password;
+                        User.create({email:email,topic:topic,password:hash},(req,res)=>{
+                        tempUser.updateOne({random_token:tokenId},
+                            { $set: { 'is_used': 'true'}},((res,err)=>{
+                                console.log(res);
+                            })
+                            ) 
+                        }); 
+                    }); 
+                }
+                
             });
-
-               /*  const saltRounds = 10;
-                bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
-                    console.log(hash);
-                }); */
             }
             else{
 
