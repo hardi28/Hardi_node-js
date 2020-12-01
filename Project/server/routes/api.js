@@ -214,23 +214,28 @@ router.post('/create-user',urlencodedParser,[check('email')
 
 router.post('/random-token',async(req,res)=>{
     let is_invalid = false;
+    let is_expired = false;
      console.log("Token bind with url:", req.body);
      var id = req.body.id
      await tempUser.findOne({random_token:req.body.id},(req,res)=>{
             console.log("res.....",res);
-            if(!res || res.is_expired){
+            if(!res){
                 is_invalid= true;
                 console.log("Invalid Url");
+            }
+            else if(res.is_expired){
+                is_expired =true;
+                console.log("URL expired");
             }else{
-                tempUser.updateOne({random_token:id},
+                    tempUser.updateOne({random_token:id},
                     { $set: { 'is_expired': 'true'}},((res,err)=>{
-                   console.log(res);
-                })        
+                        console.log(res);
+                    })        
              
-        )
-    }
-    });
-    res.status(400).json({is_invalid:is_invalid});
+                )   
+            }
+        });
+    res.status(400).json({is_invalid:is_invalid, is_expired:is_expired});
     // }
 });
 

@@ -12,6 +12,8 @@ export class CreatePasswordComponent implements OnInit {
   
   public tokenID;
   public response ="";
+  public is_invalid = false ;
+  public is_expired = false;
   constructor(private _router:Router,
               private _auth:AuthService,
               private route:ActivatedRoute) { }
@@ -28,10 +30,16 @@ export class CreatePasswordComponent implements OnInit {
         .subscribe(
         res =>{
           console.log(res.is_invalid);
+          console.log(res.is_expired);
         },
         error =>{
-          if(error.error.is_invalid){
+          this.is_invalid = error.error.is_invalid;
+          this.is_expired = error.error.is_expired;
+          
+          if(!error.error.hasOwnProperty('is_invalid') || error.error.is_invalid){
             this._router.navigate(['random']);
+          }else if(error.error.is_expired){
+            console.log(this.is_expired);
           }
           console.log("asaa",{...error});
         }

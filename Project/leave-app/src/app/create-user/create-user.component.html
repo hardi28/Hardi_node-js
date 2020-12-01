@@ -45,7 +45,7 @@
             <!--submenu-->
             <ul class="sub-menu">
               <li class="menu-item">
-                <a href="create-user" class=" menu-link">
+                <a href="create-user" *ngIf="loggedIn()" class=" menu-link">
                 <span class="menu-label">
                 <span class="menu-name">Add New User</span>
                 </span>
@@ -99,7 +99,7 @@
                 </a>
               </li>
               <li class="menu-item">
-                <a href="create-user" class="open-dropdown menu-link">
+                <a href="create-user" *ngIf="loggedIn()" class="open-dropdown menu-link">
                 <span class="menu-label">
                 <span class="menu-name">Add New User
                 <span class="menu-arrow"></span>
@@ -201,7 +201,7 @@
             <label >Email</label>
             <input type="email" required #email ="ngModel" [class.is-invalid]="email.invalid && email.touched" class ="form-control" placeholder="email" [(ngModel)]="userModel.email"  name="email" >
             <small class="text-danger" [class.d-none]="email.valid || email.untouched ">Email is required</small>
-            
+            <small class ="text-danger"  *ngIf="emailError[0]">{{emailError}}</small>
         </div>
         <!-- <div class="form-group col-md-6">
             <label for="inputPassword4">Password</label>
@@ -211,8 +211,8 @@
     <div class="form-row">
         <!-- <div class="form-group floating-label show-label col-md-4"> -->
           <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)"  #topic ="ngModel" [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" [(ngModel)]="userModel.topic">
-
-            <option value="default"> Select Your Choice</option>
+            
+            <option value="" selected disabled> Select Your Choice</option>
             <option *ngFor="let topic of topics">{{ topic }}</option>
           </select>
         <!-- </div> -->
@@ -221,6 +221,7 @@
    
     <div class="form-group" id ="submitButton">
         <button type= "submit" (click)="submitUser()" class="btn btn-primary">Submit</button>
+        <!-- <p *ngIf="res">{{res}}</p> -->
     </div>
 <!-- </div> -->
   </form>

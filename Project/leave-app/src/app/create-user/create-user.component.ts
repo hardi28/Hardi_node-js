@@ -9,6 +9,7 @@ import { User } from '../user';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
+  emailError ="";
   topics =['Backend' , 'Front-end'];
   topicHasError = true;
   submitData ={};
@@ -28,15 +29,25 @@ export class CreateUserComponent implements OnInit {
       this.topicHasError = false;
     }
   }
- submitUser(){
-    this._auth.submitUser(this.userModel)
-    .subscribe(
-      res => {
-        console.log(res)
-    
-      },
-      err => console.log(err)
-    )
+  submitUser()
+  {
+        console.log(this.userModel);
+        if(Object.keys(this.userModel).length === 0){
+        }
+        else if (!this.userModel.email){
+        }
+        else if(!this.userModel.topic){
+        }
+    else
+    {
+      this._auth.submitUser(this.userModel)
+      .subscribe(
+        res => {
+          console.log("user response",res);
+        },
+        err => console.log(err)
+      )
+    }
   }
   loggedIn(){
     return !!localStorage.getItem('token')
@@ -45,8 +56,8 @@ export class CreateUserComponent implements OnInit {
     // this._auth.loginUser(this.userModel)
     // .subscribe(
     //   res => {
-    localStorage.removeItem('token')
-    this._router.navigate(['/login'])
+    localStorage.removeItem('token');
+    this._router.navigate(['/login']);
     //   },
     //   err=> console.log(err)
     // )
