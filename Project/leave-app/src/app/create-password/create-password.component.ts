@@ -1,3 +1,4 @@
+import { ConstantPool } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { generate } from 'rxjs';
@@ -14,6 +15,7 @@ export class CreatePasswordComponent implements OnInit {
   public response ="";
   public is_invalid = false ;
   public is_expired = false;
+  public is_used = false;
   constructor(private _router:Router,
               private _auth:AuthService,
               private route:ActivatedRoute) { }
@@ -31,6 +33,7 @@ export class CreatePasswordComponent implements OnInit {
         res =>{
           console.log(res.is_invalid);
           console.log(res.is_expired);
+          console.log(res.is_used);
         },
         error =>{
           this.is_invalid = error.error.is_invalid;

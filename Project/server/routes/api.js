@@ -250,6 +250,7 @@ router.post('/create-password',(req,res)=>{
     console.log("HEYYYYYY",req.body); 
     var tokenId = req.body.randomToken.id;
     var userPassword = req.body.userModel;
+    let is_used = false;
     console.log(userPassword);  
     if(!userPassword.password && !userPassword.confirm_password){
         res.status(200).json({all:"Please enter Something"});
@@ -289,7 +290,8 @@ router.post('/create-password',(req,res)=>{
                             User.create({email:email,topic:topic,password:hash},(req,res)=>{
                             tempUser.updateOne({random_token:tokenId},
                                 { $set: { 'is_used': 'true'}},((res,err)=>{
-                                    console.log(res);
+                                    res.status(200).json({is_used:is_used});
+                                    
                                 })
                                 ) 
                             }); 
