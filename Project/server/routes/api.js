@@ -214,24 +214,32 @@ router.post('/create-user',urlencodedParser,[check('email')
 router.post('/random-token',async(req,res)=>{
     let is_invalid = false;
     let is_expired = false;
+    var currentTime = (new Date()).getTime() ;
+    
+     console.log("Currently date",currentTime);
      console.log("Token bind with url:", req.body);
      var id = req.body.id
      await tempUser.findOne({random_token:req.body.id},(req,res)=>{
             console.log("res.....",res);
+            // console.log(res.createdAt);
             if(!res){
                 is_invalid= true;
                 console.log("Invalid Url");
             }
-            else if(res.is_expired){
-                is_expired =true;
-                console.log("URL expired");
-            }else{
+            else {
+                var tokenCreationTime = new Date (res.createdAt);
+                var tokenExpiryTime = (new Date (res.createdAt)).getTime() + 86400000;
+                console.log(tokenExpiryTime);
+                if(currentTime > tokenExpiryTime){
+                    is_expired =true;
                     tempUser.updateOne({random_token:id},
                     { $set: { 'is_expired': 'true'}},((res,err)=>{
-                        console.log(res);
-                    })        
+                            console.log(res);
+                        })        
              
-                )   
+                    )   
+                    console.log("URL expired");
+                }
             }
         });
     res.status(400).json({is_invalid:is_invalid, is_expired:is_expired});
@@ -265,30 +273,30 @@ router.post('/create-password',(req,res)=>{
             let topic = "";
 
             if (userPassword.password == userPassword.confirm_password){
-            res.status(200).json({done: "Password Created Sucessfully"});
-            // console.log("Password Matched Sucessfully");
-            tempUser.findOne({random_token: tokenId},(req,res)=>{
-                if(is_expired='true')
-                {
-                    email = res.email;
-                    topic = res.topic;
-                    password = userPassword.password,userPassword.confirm_password;
-                    console.log(email, topic, tokenId, password);
-                    const saltRounds = 10;
-                    bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
-                        console.log("passwordf.mlvfmdkfsnfcsjkdhfjksdhfvjsd",hash);
-                        // hash = password;
-                        User.create({email:email,topic:topic,password:hash},(req,res)=>{
-                        tempUser.updateOne({random_token:tokenId},
-                            { $set: { 'is_used': 'true'}},((res,err)=>{
-                                console.log(res);
-                            })
-                            ) 
+                res.status(200).json({done: "Password Created Sucessfully"});
+                // console.log("Password Matched Sucessfully");
+                tempUser.findOne({random_token: tokenId},(req,res)=>{
+                    if(is_expired='true')
+                    {
+                        email = res.email;
+                        topic = res.topic;
+                        password = userPassword.password,userPassword.confirm_password;
+                        console.log(email, topic, tokenId, password);
+                        const saltRounds = 10;
+                        bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
+                            console.log("passwordf.mlvfmdkfsnfcsjkdhfjksdhfvjsd",hash);
+                            // hash = password;
+                            User.create({email:email,topic:topic,password:hash},(req,res)=>{
+                            tempUser.updateOne({random_token:tokenId},
+                                { $set: { 'is_used': 'true'}},((res,err)=>{
+                                    console.log(res);
+                                })
+                                ) 
+                            }); 
                         }); 
-                    }); 
-                }
+                    }
                 
-            });
+                });
             }
             else{
 
