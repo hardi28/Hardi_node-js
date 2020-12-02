@@ -6,9 +6,10 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
 
 import { CreateUserComponent } from './create-user/create-user.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EmployeeComponent } from './employee/employee.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RegistrationComponent } from './registration/registration.component';
+
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
     component:DashboardComponent,
     canActivate:[AuthGuard]
   },
-  {path:'register',component:RegistrationComponent},
+  {path:'employee',component:EmployeeComponent},
   {
     path:'**',
     component:PageNotFoundComponent

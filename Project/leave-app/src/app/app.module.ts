@@ -7,12 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { RegistrationComponent } from './registration/registration.component';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { CreatePasswordComponent } from './create-password/create-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { EmployeeComponent } from './employee/employee.component';
 
 
 @NgModule({
@@ -20,10 +21,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AppComponent,
     LoginComponent,
     CreateUserComponent,
-    RegistrationComponent,
     DashboardComponent,
     CreatePasswordComponent,
     PageNotFoundComponent,
+    EmployeeComponent,
   ],
   imports: [
     BrowserModule,
