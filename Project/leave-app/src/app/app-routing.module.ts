@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddLeaveComponent } from './add-leave/add-leave.component';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { CreatePasswordComponent } from './create-password/create-password.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {
     path:'create-user',
-    component:CreateUserComponent
+    component:CreateUserComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'create-password/:id',
@@ -31,10 +33,19 @@ const routes: Routes = [
     component:DashboardComponent,
     canActivate:[AuthGuard]
   },
-  {path:'employee',component:EmployeeComponent},
+  {
+    path:'employee',
+    component:EmployeeComponent,
+    canActivate:[AuthGuard]
+
+  },
   {
     path:'**',
     component:PageNotFoundComponent
+  },
+  {
+    path:'addleave',
+    component:AddLeaveComponent
   }
 ];
 
