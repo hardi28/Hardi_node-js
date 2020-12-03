@@ -214,6 +214,7 @@ router.post('/create-user',urlencodedParser,[check('email')
 router.post('/random-token',async(req,res)=>{
     let is_invalid = false;
     let is_expired = false;
+    let is_used = false;
     var currentTime = (new Date()).getTime() ;
     
      console.log("Currently date",currentTime);
@@ -227,22 +228,28 @@ router.post('/random-token',async(req,res)=>{
                 console.log("Invalid Url");
             }
             else {
-                var tokenCreationTime = new Date (res.createdAt);
-                var tokenExpiryTime = (new Date (res.createdAt)).getTime() + 86400000;
-                console.log(tokenExpiryTime);
-                if(currentTime > tokenExpiryTime){
-                    is_expired =true;
-                    tempUser.updateOne({random_token:id},
-                    { $set: { 'is_expired': 'true'}},((res,err)=>{
-                            console.log(res);
-                        })        
-             
-                    )   
-                    console.log("URL expired");
+                if(res.is_used == true){
+                    console.log("Used")
                 }
+                else{                
+                        var tokenCreationTime = new Date (res.createdAt);
+                        var tokenExpiryTime = (new Date (res.createdAt)).getTime() + 86400000;
+                        console.log(tokenExpiryTime);
+                    if(currentTime > tokenExpiryTime){
+                        is_expired =true;
+                        tempUser.updateOne({random_token:id},
+                        { $set: { 'is_expired': 'true'}},((res,err)=>{
+                                console.log(res);
+                            })        
+                
+                        )   
+                        console.log("URL expired");
+                        }
+                    }
             }
+
         });
-    res.status(400).json({is_invalid:is_invalid, is_expired:is_expired});
+    res.status(400).json({is_invalid:is_invalid, is_expired:is_expired , is_used:is_used});
     // }
 });
 
@@ -287,14 +294,17 @@ router.post('/create-password',(req,res)=>{
                         bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
                             console.log("passwordf.mlvfmdkfsnfcsjkdhfjksdhfvjsd",hash);
                             // hash = password;
+
                             User.create({email:email,topic:topic,password:hash},(req,res)=>{
                             tempUser.updateOne({random_token:tokenId},
                                 { $set: { 'is_used': 'true'}},((res,err)=>{
-                                    res.status(200).json({is_used:is_used});
+                                    console.log("url used");
                                     
                                 })
                                 ) 
-                            }); 
+                                
+                            });
+                            
                         }); 
                     }
                 
