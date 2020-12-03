@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   //  role =new role();
   userModel = new User ();
   // loginUserData = {};
-  constructor(private _auth:AuthService,
+  constructor(private  _auth:AuthService,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -26,13 +26,13 @@ export class LoginComponent implements OnInit {
     .subscribe(
       res => {   
         //--------------------------- Decoding JWT token Which comes from api res
-        // console.log(jwt_decode(res.token)) ;    
-        if(res.token ){
+        console.log(jwt_decode(res.token)) ;    
+        if(res.token ){ 
           console.log("Login Works")
             localStorage.setItem('token',res.token);
-            // localStorage.setItem('role_id',res.role_id);
+            // localStorage.setItem('role_  id',res.role_id);
             if (res.role_id==1){
-              this._router.navigate(['/dashboard']);
+              this._router.navigate(['/create-user']);
             }
             else{
               this._router.navigate(['/employee']);

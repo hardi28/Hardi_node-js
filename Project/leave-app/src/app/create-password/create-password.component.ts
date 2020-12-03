@@ -38,11 +38,16 @@ export class CreatePasswordComponent implements OnInit {
         error =>{
           this.is_invalid = error.error.is_invalid;
           this.is_expired = error.error.is_expired;
+          this.is_used = error.error.is_used;
           
           if(!error.error.hasOwnProperty('is_invalid') || error.error.is_invalid){
             this._router.navigate(['random']);
           }else if(error.error.is_expired){
             console.log(this.is_expired);
+          }
+          else if(!error.error.hasOwnProperty('is_used') || error.error.is_used){
+            this._router.navigate(['random']);
+            // console.log(this.is_used);
           }
           console.log("asaa",{...error});
         }

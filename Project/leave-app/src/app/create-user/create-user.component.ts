@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
+import jwtDecode from 'jwt-decode';
+
 
 @Component({
   selector: 'app-create-user',
@@ -23,6 +25,13 @@ export class CreateUserComponent implements OnInit {
    if(!localStorage.getItem('token')){
     this._router.navigate(['/login'])
    }
+  interface myToken {
+    role_id: number;
+  }
+  const decode_token = jwtDecode<myToken>(localStorage.getItem('token'));
+    if(decode_token.role_id === 2){
+      this._router.navigate(['/login'])
+    }
   }
   validateTopic(value){
     if(value === 'default'){
@@ -58,17 +67,17 @@ export class CreateUserComponent implements OnInit {
       )
     }
   }
-  loggedIn(){
-    return !!localStorage.getItem('token')
-  }
-  logoutUser(){
-    // this._auth.loginUser(this.userModel)
-    // .subscribe(
-    //   res => {
-    localStorage.removeItem('token');
-    this._router.navigate(['/login']);
-    //   },
-    //   err=> console.log(err)
-    // )
-  } 
+  // loggedIn(){
+  //   return !!localStorage.getItem('token')
+  // }
+  // logoutUser(){
+  //   // this._auth.loginUser(this.userModel)
+  //   // .subscribe(
+  //   //   res => {
+  //   localStorage.removeItem('token');
+  //   this._router.navigate(['/login']);
+  //   //   },
+  //   //   err=> console.log(err)
+  //   // )
+  // } 
 }

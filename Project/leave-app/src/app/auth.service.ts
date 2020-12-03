@@ -25,10 +25,7 @@ export class AuthService {
     loggedIn(){
       return !!(localStorage.getItem('token'));
     }
-    logoutUser(){
-      localStorage.removeItem('token');
-      this._router.navigate(['/login']);
-    } 
+  
    SubmitForm(user_details){
     return this.http.post<any>(this._createPassword,user_details);
    }

@@ -14,6 +14,7 @@ import { AuthGuard } from './auth.guard';
 import { CreatePasswordComponent } from './create-password/create-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { AddLeaveComponent } from './add-leave/add-leave.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { EmployeeComponent } from './employee/employee.component';
     CreatePasswordComponent,
     PageNotFoundComponent,
     EmployeeComponent,
+    AddLeaveComponent,
   ],
   imports: [
     BrowserModule,
