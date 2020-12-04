@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     this._auth.loginUser(this.userModel)
     .subscribe(
       res => {   
-        //--------------------------- Decoding JWT token Which comes from api res
+        //--------------------------- Decoding JWT token Which comes from api res---------------------
         console.log(jwt_decode(res.token)) ;    
         if(res.token ){ 
           console.log("Login Works")

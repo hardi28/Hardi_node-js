@@ -15,7 +15,7 @@ export class CreatePasswordComponent implements OnInit {
   public response ="";
   public is_invalid = false ;
   public is_expired = false;
-  public is_used = false;
+  public is_used = true;
   constructor(private _router:Router,
               private _auth:AuthService,
               private route:ActivatedRoute) { }

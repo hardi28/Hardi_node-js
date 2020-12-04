@@ -229,6 +229,7 @@ router.post('/random-token',async(req,res)=>{
             }
             else {
                 if(res.is_used == true){
+                    is_used = true;
                     console.log("Used")
                 }
                 else{                
@@ -302,7 +303,6 @@ router.post('/create-password',(req,res)=>{
                                     
                                 })
                                 ) 
-                                
                             });
                             
                         }); 
