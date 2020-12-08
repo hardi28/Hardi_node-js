@@ -7,7 +7,7 @@ var tempUserSchema = new Schema ({
     random_token : String,
     is_used : Boolean,
     is_expired : Boolean,
-    role : String,
+    role : Number,
 })
 tempUserSchema.set('timestamps',true);
 module.exports = mongoose.model('tempUser', tempUserSchema, 'temp_user'); 

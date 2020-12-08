@@ -45,7 +45,9 @@ const routes: Routes = [
   },
   {
     path:'addleave',
-    component:AddLeaveComponent
+    component:AddLeaveComponent,
+    canActivate:[AuthGuard]
+
   }
 ];
 

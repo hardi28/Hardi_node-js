@@ -1,3 +1,51 @@
+<div class="col-lg-6 main_form">
+    <div class="card m-b-30">
+        <div class="card-header">
+            <h5 class="m-b-0">
+                 Employee Add Leave
+            </h5>
+        </div>
+        <div class="card-body ">
+            <div class="form-row" >
+                <div class="form-group col-md-12">
+                    <label>Leave-reason</label>
+                    <textarea class="form-control" required #leaveReason ="ngModel" name="leaveReason" rows="3" [(ngModel)]="userModel.leaveReason" aria-label="Leave Reason"></textarea>
+                    <small class="text-danger"   [class.d-none]="leaveReason.valid || leaveReason.untouched "  >  {{emptyBody}}</small>
 
-<p>HELLO EMPLOYEE</p>
-  
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12" [class.has-error] ="leaveType.touched && leaveType.invalid">
+                    <label>Leave-Type</label>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="SL"  required #leaveType ="ngModel" name="leaveType"  value="SL" class="custom-control-input" [(ngModel)]="userModel.leaveType">                        
+                        <label for="SL" class="custom-control-label">SL (Sick-Leave)</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="CL"  required #leaveType ="ngModel" name="leaveType"  value="CL" class="custom-control-input"  [(ngModel)]="userModel.leaveType">
+                        <label for="CL" class="custom-control-label">CL (Casual-Leave)</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="PL" required #leaveType ="ngModel" name="leaveType" value="PL" class="custom-control-input"  [(ngModel)]="userModel.leaveType">
+                        <label for="PL" class="custom-control-label">PL (Paid-Leave)</label>
+                    </div>
+                </div>
+                <span class="help-block text-danger" *ngIf="leaveType.touched && leaveType.invalid" >
+                    {{ type }}
+                </span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Leave Date</label>
+                    <input type="text" id="dateRange" ngxDaterangepickerMd required #dateRange="ngModel" name="dateRange" class="input-daterange form-control" [(ngModel)]="userModel.dateRange" startKey="start" endKey="end" [class.has-error] ="dateRange.touched && dateRange.invalid" (change)="selectedDate($event)">
+                </div>
+            </div>
+            <span class="help-block text-danger">
+                {{ res }}
+            </span>
+            <div class="form-group" id ="submitButton">
+                <button type= "submit" (click) ="submit()" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,8 +9,11 @@ import { Observable } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(private  _authService: AuthService,
     private _router: Router) { }
-
+    // public tokenID = localStorage.getItem('token');
+    
+    
   canActivate(): boolean {
+    // console.log(this.tokenID);
     if (this._authService.loggedIn()) {
       return true
     } else {          

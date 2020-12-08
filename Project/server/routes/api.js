@@ -104,12 +104,14 @@ check('password')
                 else{
                     if(user.password !== userData.password){
                         res.status(401).send('invalid password');
-                    }else{
+                    }
+                    else{
                         let role_id ;
                         role.find({_id: user.role_id}, (err, role) => {
                             if (err) {
                                 console.log(err);
                             }
+                            
                             else {
                                 role_id=role[0].id;
                                 console.log(role_id);
@@ -132,6 +134,7 @@ router.post('/create-user',urlencodedParser,[check('email')
 .withMessage('email can not be an empty field')],(req,res)=>{
     let userData = req.body;
     var emailError = "";
+    let role_id = 0;
     var errors = validationResult(req);
     // console.log(errors)
     if (errors.errors.length>0) {  
@@ -170,7 +173,14 @@ router.post('/create-user',urlencodedParser,[check('email')
         else{
             tempUser.findOne({email:userData.email},(err,res)=>{
                 if(!res){
-                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role: userData.role,is_used:0, is_expired:0 } ,(error,user)=>{ 
+                    if(userData.role === "employee"){
+                        role_id = 2;
+                        console.log("role find");
+                    }
+                    else if(userData.role === "admin"){
+                        role_id = 1;
+                    }
+                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role: role_id,is_used:0, is_expired:0 } ,(error,user)=>{ 
                         console.log("user" ,user.random_token);
                         if (user){
                             let transporter = nodemailer.createTransport({
@@ -202,6 +212,7 @@ router.post('/create-user',urlencodedParser,[check('email')
                         }
                     });
                 }
+                
                 else{
                     console.log("Already in database");
                 }
@@ -236,7 +247,7 @@ router.post('/random-token',async(req,res)=>{
                         var tokenCreationTime = new Date (res.createdAt);
                         var tokenExpiryTime = (new Date (res.createdAt)).getTime() + 86400000;
                         console.log(tokenExpiryTime);
-                    if(currentTime > tokenExpiryTime){
+                        if(currentTime > tokenExpiryTime){
                         is_expired =true;
                         tempUser.updateOne({random_token:id},
                         { $set: { 'is_expired': 'true'}},((res,err)=>{
@@ -244,7 +255,7 @@ router.post('/random-token',async(req,res)=>{
                             })        
                 
                         )   
-                        console.log("URL expired");
+                            console.log("URL expired");
                         }
                     }
             }
@@ -280,6 +291,7 @@ router.post('/create-password',(req,res)=>{
         else{
             let email = "";
             let topic = "";
+            let role_id ;
 
             if (userPassword.password == userPassword.confirm_password){
                 res.status(200).json({done: "Password Created Sucessfully"});
@@ -287,16 +299,17 @@ router.post('/create-password',(req,res)=>{
                 tempUser.findOne({random_token: tokenId},(req,res)=>{
                     if(is_expired='true')
                     {
+                        role_id = res.role;
                         email = res.email;
                         topic = res.topic;
                         password = userPassword.password,userPassword.confirm_password;
-                        console.log(email, topic, tokenId, password);
+                        console.log(email, topic, tokenId, password, role_id);
                         const saltRounds = 10;
                         bcrypt.hash(userPassword.password, saltRounds, function(err, hash) {
-                            console.log("passwordf.mlvfmdkfsnfcsjkdhfjksdhfvjsd",hash);
+                            console.log("password",hash);
                             // hash = password;
 
-                            User.create({email:email,topic:topic,password:hash},(req,res)=>{
+                            User.create({email:email,topic:topic,password:hash, role_id:role_id},(req,res)=>{
                             tempUser.updateOne({random_token:tokenId},
                                 { $set: { 'is_used': 'true'}},((res,err)=>{
                                     console.log("url used");
@@ -318,6 +331,27 @@ router.post('/create-password',(req,res)=>{
     }
     
     
+});
+
+router.post('/empLeave',(req,res)=>{
+    console.log("For leave",req.body);
+    // console.log("For leave",req.body.leavereason);
+    var start = req.body.dateRange.start;
+    var end = req.body.dateRange.end ;
+    if(req.body.leaveReason == null){
+        // console.log("Requiredddddd")
+        res.json({body:"Reason is required"});
+    }
+    else if(req.body.leaveType == null){
+        res.json({leaveType:"Type is required"});
+    }
+    else{
+    if(start == null || end == null){
+            res.json({dateRange:"please enter date"});
+        }
+    }
+    
+
 });
 
 module.exports = router;

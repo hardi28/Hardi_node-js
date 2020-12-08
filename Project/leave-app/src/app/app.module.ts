@@ -15,7 +15,7 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { AddLeaveComponent } from './add-leave/add-leave.component';
-
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { AddLeaveComponent } from './add-leave/add-leave.component';
     FormsModule,
     // FormControl,
     HttpClientModule,
+    NgxDaterangepickerMd.forRoot()
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

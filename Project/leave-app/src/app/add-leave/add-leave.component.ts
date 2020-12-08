@@ -18,7 +18,7 @@ export class AddLeaveComponent implements OnInit {
     }
     const decode_token = jwtDecode<myToken>(localStorage.getItem('token'));
     if(decode_token.role_id === 1){
-      this._router.navigate(['/login'])
+      this._router.navigate(['/dashboard'])
     }
   }
 

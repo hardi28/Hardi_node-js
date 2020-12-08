@@ -1,0 +1,19 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+m-b-10 {
+    margin-bottom: 10px;
+}
+/* .card-body
+{
+    padding:100px;
+    margin-left: auto;
+    margin-right: auto;
+} */
+.main_form
+{
+    padding:50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+}

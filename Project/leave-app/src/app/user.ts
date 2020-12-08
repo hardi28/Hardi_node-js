@@ -6,5 +6,8 @@ export class User {
         public confirm_password: string;
         public random_token : string;
         public role : string;
+        public leaveReason : string;
+        public leaveType : string;
+        public dateRange : Date;
     // ){}
 }

@@ -3,15 +3,21 @@ import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
-
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import * as moment from 'moment';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
-})
+})  
 export class EmployeeComponent implements OnInit {
 
   userModel = new User();
+  usermodel = {};
+  res = "";
+  emptyBody ="";
+  type ="";
+
   constructor(private _auth:AuthService, 
     private _router: Router) { }
 
@@ -24,5 +30,36 @@ export class EmployeeComponent implements OnInit {
       this._router.navigate(['/login'])
     }
   }
+  submit(){
+    console.log("Date range Picker",this.userModel.dateRange);
+    if(this.userModel.dateRange === null ){
+      console.log("UserModel WORKING!!")
+    }
+    this._auth.submit(this.userModel)
+    .subscribe(    
+      res=>{
+      console.log("Response is print here",res);
+      // alert(res.dateRange);
+      this.res = res.dateRange ;
+      this.emptyBody = res.body;
+      this.type = res.leaveType;
+    },
+    err=>{
+      console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",err);
+    }
+  )  
+  }
+
+  selectedDate(event) {
+    // var startKey= event.startDate._d;
+    console.log("After Change")
+    console.log(event);
+    if(event.start == null && event.end == null){
+      console.log("Enter Something");
+    }
+    // console.log(startKey);
+
+  }
 
 }
+
