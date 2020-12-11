@@ -15,6 +15,9 @@ export class LoginComponent implements OnInit {
   emailError ="";
   //  role =new role();
   userModel = new User ();
+  error ="" ;
+  emailBackErr =""
+  
   // loginUserData = {};
   constructor(private  _auth:AuthService,
     private _router: Router) { }
@@ -40,9 +43,15 @@ export class LoginComponent implements OnInit {
         }
           else{
             this.emailError = res;
+            
           }
       },
-      err => console.log(err),
+      err =>{
+        console.log(err);
+        this.emailBackErr =  err.error.data;
+        this.error = err.error.password;
+      } 
+      
     )
   }
 }

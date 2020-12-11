@@ -31,7 +31,8 @@
                 <!-- <small class ="text-danger" *ngIf="emailError.length == 1" >{{ emailError[0] }}</small> -->
             </div>
         </div>
-
+        <small class ="text-danger"  *ngIf="error">{{ error }}</small>
+        <small class ="text-danger"  *ngIf="emailBackErr">{{ emailBackErr }}</small>
         <button type="submit" (click)="loginUser()" class="btn btn-primary btn-block btn-lg">Login</button>
 
     </form>
