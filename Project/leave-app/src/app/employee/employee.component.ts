@@ -15,8 +15,9 @@ export class EmployeeComponent implements OnInit {
   userModel = new User();
   usermodel = {};
   res = "";
-  emptyBody ="";
+  reason ="";
   type ="";
+  emptyBody ="";
 
   constructor(private _auth:AuthService, 
     private _router: Router) { }
@@ -41,8 +42,9 @@ export class EmployeeComponent implements OnInit {
       console.log("Response is print here",res);
       // alert(res.dateRange);
       this.res = res.dateRange ;
-      this.emptyBody = res.body;
+      this.reason = res.reason;
       this.type = res.leaveType;
+      this.emptyBody = res.body;
     },
     err=>{
       console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",err);

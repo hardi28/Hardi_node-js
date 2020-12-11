@@ -333,14 +333,17 @@ router.post('/create-password',(req,res)=>{
     
 });
 
-router.post('/empLeave',(req,res)=>{
+router.post('/empleave',(req,res)=>{
     console.log("For leave",req.body);
     // console.log("For leave",req.body.leavereason);
     var start = req.body.dateRange.start;
     var end = req.body.dateRange.end ;
-    if(req.body.leaveReason == null){
+    if(req.body.leaveReason == null && req.body.leaveType == null && (start == null || end == null) ){
+        res.json({body:"Enter something!!!!!!!!!!!"});
+    }
+    else if(req.body.leaveReason == null){
         // console.log("Requiredddddd")
-        res.json({body:"Reason is required"});
+        res.json({reason:"Reason is required"});
     }
     else if(req.body.leaveType == null){
         res.json({leaveType:"Type is required"});
@@ -351,7 +354,7 @@ router.post('/empLeave',(req,res)=>{
         }
     }
     
-
+    
 });
 
 module.exports = router;

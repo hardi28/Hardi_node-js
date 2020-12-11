@@ -5,13 +5,13 @@
                  Employee Add Leave
             </h5>
         </div>
-        <div class="card-body ">
-            <div class="form-row" >
+        <div class="card-body " >
+            <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Leave-reason</label>
-                    <textarea class="form-control" required #leaveReason ="ngModel" name="leaveReason" rows="3" [(ngModel)]="userModel.leaveReason" aria-label="Leave Reason"></textarea>
-                    <small class="text-danger"   [class.d-none]="leaveReason.valid || leaveReason.untouched "  >  {{emptyBody}}</small>
-
+                    <textarea class="form-control" required #leaveReason ="ngModel" name="leaveReason" rows="3" [class.has-error] ="leaveReason.touched && leaveReason.invalid" [(ngModel)]="userModel.leaveReason" aria-label="Leave Reason"></textarea>
+                    <small class="text-danger"   [class.d-none]="leaveReason.valid || leaveReason.untouched " >  Enter Leave Reason...</small>
+                    <span class="text-danger" >  {{ reason }} </span>
                 </div>
             </div>
             <div class="form-row">
@@ -31,8 +31,10 @@
                     </div>
                 </div>
                 <span class="help-block text-danger" *ngIf="leaveType.touched && leaveType.invalid" >
-                    {{ type }}
+                    <!-- {{ type }} -->
+                    Enter Leave-Type...
                 </span>
+                <span class="help-block text-danger" >{{ type }}</span>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
@@ -44,7 +46,8 @@
                 {{ res }}
             </span>
             <div class="form-group" id ="submitButton">
-                <button type= "submit" (click) ="submit()" class="btn btn-primary">Submit</button>
+                <span class="text-danger" *ngIf ="emptyBody">{{ emptyBody }}</span><br>
+                <button type= "submit" (click) ="submit()" class="btn btn-primary">Submit</button>            
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@ export class AuthService {
   private _url = this.baseURL+"/api/create-user";
   private _createPassword = this.baseURL+"/api/create-password";
   private _linkVerify = this.baseURL+"/api/random-token";
-  private _submit = this.baseURL+"/api/empLeave";
+  private _submit = this.baseURL+"/api/empleave";
 
   constructor(private http: HttpClient ,
     private _router: Router) { }
