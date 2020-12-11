@@ -51,17 +51,17 @@ function verifyToken(req, res, next) {
 router.post('/login',urlencodedParser,[check('email')
 .not()
 .isEmpty()
-.withMessage('email can not be an empty field')
-.bail()
+.withMessage('email can not be an empty field'),
+/* .bail()
 .isEmail()
 .normalizeEmail()
-.withMessage('Enter valid emailID'),
+.withMessage('Enter valid emailID'), */
 check('password')
 .not()
 .isEmpty()
 .withMessage('password can not be an empty field')
 
-],(req,res)=>{
+],(req,response)=>{
     var emailError = "";
     var errors = validationResult(req);
     // console.log(errors)
@@ -88,40 +88,47 @@ check('password')
         emailError = c;
             emailError = JSON.stringify(emailError);
             console.log(emailError);
-            res.send(emailError);
+            response.send(emailError);
     }
     else{
     
         let userData = req.body;
+        // console.log(userData);
         User.findOne({email: userData.email }, (error,user)=>{
             if(error){
                 console.log(error);
             }
             else{
                 if(!user){
-                    // res.status(401).json({"data": "invalid Email"});
+                    response.status(401).json({data: "invalid Email"});
                 }
                 else{
-                    if(user.password !== userData.password){
-                        res.status(401).send('invalid password');
-                    }
-                    else{
-                        let role_id ;
-                        role.find({_id: user.role_id}, (err, role) => {
-                            if (err) {
-                                console.log(err);
+                    console.log(user.password);
+                    bcrypt.compare(userData.password,user.password, (err,res)=>{
+                                console.log("Password Matched",res);
+                            if(res == false){
+                                response.status(401).json({password:'invalid password'});
+                                // console.log("Enter password Again:")
                             }
-                            
-                            else {
-                                role_id=role[0].id;
-                                console.log(role_id);
-                                let payload = { subject: user._id, role_id: role_id}
-                                let token = jwt.sign(payload, 'secretKey');
-                                res.status(200).send({token, role_id});
-                                
-                            }
-                        });
-                    }
+                            else{
+                                console.log("asaasas");
+                                let role_id ;
+                                role.find({_id: user.role_id}, (err, role) => {
+                                    console.log("err", role)
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    
+                                    else {
+                                        role_id=role[0].id;
+                                        console.log(role_id);
+                                        let payload = { subject: user._id, role_id: role_id}
+                                        let token = jwt.sign(payload, 'secretKey');
+                                        response.status(200).send({token, role_id});  
+                                    }
+                                });
+                            } 
+                        })
                 }
             }
         
@@ -134,7 +141,7 @@ router.post('/create-user',urlencodedParser,[check('email')
 .withMessage('email can not be an empty field')],(req,res)=>{
     let userData = req.body;
     var emailError = "";
-    let role_id = 0;
+    let role_id ={};
     var errors = validationResult(req);
     // console.log(errors)
     if (errors.errors.length>0) {  
@@ -174,13 +181,17 @@ router.post('/create-user',urlencodedParser,[check('email')
             tempUser.findOne({email:userData.email},(err,res)=>{
                 if(!res){
                     if(userData.role === "employee"){
-                        role_id = 2;
+                        // role_id = 2;
                         console.log("role find");
-                    }
-                    else if(userData.role === "admin"){
-                        role_id = 1;
-                    }
-                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role: role_id,is_used:0, is_expired:0 } ,(error,user)=>{ 
+                        role.find({role_name : userData.role},(req,res)=>{
+                            role_id = res[0]._id;
+                            console.log(res);
+                    //     })
+                    // }
+                    // else if(userData.role === "admin"){
+                    //     role_id = 1;
+                    // }
+                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role_id: role_id,is_used:0, is_expired:0 } ,(error,user)=>{ 
                         console.log("user" ,user.random_token);
                         if (user){
                             let transporter = nodemailer.createTransport({
@@ -211,6 +222,8 @@ router.post('/create-user',urlencodedParser,[check('email')
                             console.log("Error Occurs",error)
                         }
                     });
+                });
+            }
                 }
                 
                 else{
@@ -299,7 +312,7 @@ router.post('/create-password',(req,res)=>{
                 tempUser.findOne({random_token: tokenId},(req,res)=>{
                     if(is_expired='true')
                     {
-                        role_id = res.role;
+                        role_id = res.role_id;
                         email = res.email;
                         topic = res.topic;
                         password = userPassword.password,userPassword.confirm_password;
