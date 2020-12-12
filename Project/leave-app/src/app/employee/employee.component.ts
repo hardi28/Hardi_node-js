@@ -18,6 +18,7 @@ export class EmployeeComponent implements OnInit {
   reason ="";
   type ="";
   emptyBody ="";
+  private user_info;
 
   constructor(private _auth:AuthService, 
     private _router: Router) { }
@@ -27,6 +28,7 @@ export class EmployeeComponent implements OnInit {
       role_id: number;
     }
     const decode_token = jwtDecode<myToken>(localStorage.getItem('token'));
+    this.user_info = decode_token;
     if(decode_token.role_id === 1){
       this._router.navigate(['/login'])
     }
@@ -36,7 +38,7 @@ export class EmployeeComponent implements OnInit {
     if(this.userModel.dateRange === null ){
       console.log("UserModel WORKING!!")
     }
-    this._auth.submit(this.userModel)
+    this._auth.submit(this.userModel, this.user_info)
     .subscribe(    
       res=>{
       console.log("Response is print here",res);

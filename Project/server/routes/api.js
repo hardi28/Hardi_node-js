@@ -8,7 +8,8 @@ const cors = require('cors');
 var path = require('path');
 const User = require('../models/user');
 const role = require('../models/role');
-const tempUser = require('../models/temp-user')
+const tempUser = require('../models/temp-user');
+const empLeave = require('../models/emp_leave');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 // const userSchema = User.user;
@@ -350,22 +351,33 @@ router.post('/create-password',(req,res)=>{
 
 router.post('/empleave',(req,res)=>{
     console.log("For leave",req.body);
-    // console.log("For leave",req.body.leavereason);
-    var start = req.body.dateRange.start;
-    var end = req.body.dateRange.end ;
-    if(req.body.leaveReason == null && req.body.leaveType == null && (start == null || end == null) ){
+    var user_id = req.body.user_info.subject;
+    var leaveReason = req.body.user.leaveReason;
+    var leaveType = req.body.user.leaveType;
+    var start = req.body.user.dateRange.start;
+    var end = req.body.user.dateRange.end ;
+    if(req.body.user.leaveReason == null && req.body.user.leaveType == null && (start == null || end == null) ){
         res.json({body:"Enter something!!!!!!!!!!!"});
     }
-    else if(req.body.leaveReason == null){
+    else if(req.body.user.leaveReason == null){
         // console.log("Requiredddddd")
         res.json({reason:"Reason is required"});
     }
-    else if(req.body.leaveType == null){
+    else if(req.body.user.leaveType == null){
         res.json({leaveType:"Type is required"});
     }
     else{
-    if(start == null || end == null){
+        if(start == null || end == null){
             res.json({dateRange:"please enter date"});
+        }
+        else{
+            User.find({_id : user_id },(req,res)=>{
+                // console.log("user Id role...",res[0]._id);
+                user_id = res[0].id;
+                empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start , endDate: end, is_approved:0, user_id: user_id } ,(req,res)=>{ 
+                    console.log("Leave added", res);
+                });
+            });
         }
     }
     
@@ -394,12 +406,12 @@ router.post('/create-admin',(req,res)=>{
                 User.create({email:email, password:hash, role_id:role[0]._id},(req,res)=>{
                     console.log(res);
                 })
-                res.status(200).send({token, role_id});  
+                // res.status(200).send({token, role_id});  
             }  
         });
     
-});
+    });
 
-})
+});
 
 module.exports = router;

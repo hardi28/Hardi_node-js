@@ -3,8 +3,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const leaveSchema = new Schema({
     leaveReason : String,
-    leaveType : RadioNodeList,
-    dateRange : Date,
+    leaveType : String,
+    startDate : String,
+    endDate : String,
+    is_approved : Boolean,
+    user_id: {type: Schema.Types.ObjectId, ref: 'emp_leave'},
 
 });
 // console.log(userSchema);
