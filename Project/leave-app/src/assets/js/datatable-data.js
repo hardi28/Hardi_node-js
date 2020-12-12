@@ -1,7 +1,7 @@
 (function ($) {
     'use strict';
     $(document).ready(function () {
-        $('#example').DataTable({
+        $('#view-all-leaves').DataTable({
             //DataTable Options
         });
         $('#example-height').DataTable({
