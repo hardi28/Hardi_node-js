@@ -22,6 +22,8 @@ router.use (cors());
     optionsSuccessStatus: 200
 } */
 const { check, validationResult} = require('express-validator');
+const user = require('../models/user');
+const { REPL_MODE_STRICT } = require('repl');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 mongoose.connect(db, { useNewUrlParser: true,useUnifiedTopology: true }, err =>{
@@ -111,7 +113,7 @@ check('password')
                                 // console.log("Enter password Again:")
                             }
                             else{
-                                console.log("asaasas");
+                                // console.log("asaasas");
                                 let role_id ;
                                 role.find({_id: user.role_id}, (err, role) => {
                                     console.log("err", role)
@@ -369,5 +371,35 @@ router.post('/empleave',(req,res)=>{
     
     
 });
+
+router.post('/create-admin',(req,res)=>{
+    const saltRounds = 10;
+    var password;
+    bcrypt.hash("vedang@gmail.com", saltRounds, function(err, hash) {
+        console.log("password",hash);
+        password = hash;
+        email= "vedang@gmail.com";
+        role_name ="admin";
+        role.find({role_name: role_name}, (err, role) => {
+            console.log("err", role)
+            if (err) {
+                console.log(err);
+            }
+            
+            else {
+                role_id=role[0].id;
+                console.log(role[0]._id);
+                let payload = { subject: user._id, role_id: role_id}
+                let token = jwt.sign(payload, 'secretKey');
+                User.create({email:email, password:hash, role_id:role[0]._id},(req,res)=>{
+                    console.log(res);
+                })
+                res.status(200).send({token, role_id});  
+            }  
+        });
+    
+});
+
+})
 
 module.exports = router;
