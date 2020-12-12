@@ -14,8 +14,8 @@ import { AuthGuard } from './auth.guard';
 import { CreatePasswordComponent } from './create-password/create-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EmployeeComponent } from './employee/employee.component';
-import { AddLeaveComponent } from './add-leave/add-leave.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { ViewLeaveComponent } from './view-leave/view-leave.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     CreatePasswordComponent,
     PageNotFoundComponent,
     EmployeeComponent,
-    AddLeaveComponent,
+    ViewLeaveComponent,
+   
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddLeaveComponent } from './add-leave/add-leave.component';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { CreatePasswordComponent } from './create-password/create-password.component';
@@ -10,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ViewLeaveComponent } from './view-leave/view-leave.component';
 
 
 const routes: Routes = [
@@ -40,15 +40,15 @@ const routes: Routes = [
 
   },
   {
-    path:'**',
-    component:PageNotFoundComponent
-  },
-  {
-    path:'addleave',
-    component:AddLeaveComponent,
+    path:'view-leave',
+    component:ViewLeaveComponent,
     canActivate:[AuthGuard]
 
-  }
+  },
+   {
+    path:'**',
+    component:PageNotFoundComponent
+  }, 
 ];
 
 @NgModule({

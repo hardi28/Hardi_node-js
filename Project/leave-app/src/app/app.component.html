@@ -14,11 +14,13 @@
           </div>
         </div>
         <div class="admin-sidebar-wrapper js-scrollbar">
+          <p>{{ isUserAdmin }}</p>
           <!-- Menu List Begins-->
         <!-------------------------------- ADMIN SIDEBAR ------------------------------------->
-          <ul class="menu" *ngIf="router.url !== '/employee'">
+          <ul class="menu" *ngIf="isUserAdmin">
+          <!-- <ul class="menu" *ngIf="router.url !== '/employee'"> -->
             <!--list item begins-->
-            <li class="menu-item active">
+            <li class="menu-item active" *ngIf="isUserAdmin">
               <a href="dashboard" class="menu-link" >
               <span class="menu-label">
               <span class="menu-name">Dashboard
@@ -32,7 +34,7 @@
             </li>
             <!--list item ends-->
             <!--list item begins-->
-            <li class="menu-item " >
+            <li class="menu-item " *ngIf="isUserAdmin">
               <a href="#" class="open-dropdown menu-link">
               <span class="menu-label">
               <span class="menu-name">Add New User
@@ -45,7 +47,7 @@
               </span>
               </a>
               <!--submenu-->
-              <ul class="sub-menu">
+              <ul class="sub-menu" *ngIf="isUserAdmin">
                 <li class="menu-item">
                   <a href="create-user"  class=" menu-link">
                   <span class="menu-label">
@@ -58,8 +60,8 @@
                   </span>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="#" class=" menu-link">
+                <li class="menu-item" *ngIf="isUserAdmin">
+                  <a href="#" class=" menu-link" *ngIf="isUserAdmin">
                   <span class="menu-label">
                   <span class="menu-name">Menu Level 1.1</span>
                   </span>
@@ -74,7 +76,7 @@
             </li>
             <!--list item ends-->
             <!--list item begins-->
-            <li class="menu-item ">
+            <li class="menu-item " *ngIf="isUserAdmin">
               <a href="#" class="open-dropdown menu-link">
               <span class="menu-label">
               <span class="menu-name">Menu Level 2
@@ -87,8 +89,8 @@
               </span>
               </a>
               <!--submenu-->
-              <ul class="sub-menu">
-                <li class="menu-item">
+              <ul class="sub-menu" *ngIf="isUserAdmin">
+                <li class="menu-item" *ngIf="isUserAdmin">
                   <a href="#" class=" menu-link">
                   <span class="menu-label">
                   <span class="menu-name">Menu Level 1.1</span>
@@ -105,12 +107,12 @@
             <!--list item ends-->
           </ul>
           <!------------------------------ EMPLOYEE SIDEBAR -------------------------------------->
-          <ul class="menu" *ngIf="router.url == '/employee'">
+          <ul class="menu" *ngIf="!isUserAdmin">
             <!--list item begins-->
-            <li class="menu-item active" *ngIf="router.url == '/employee'">
-              <a href="#" class="menu-link" >
+            <li class="menu-item active" *ngIf="!isUserAdmin">
+              <a href="employee" class="menu-link" >
               <span class="menu-label">
-              <span class="menu-name">EMP-Dashboard
+              <span class="menu-name">Add Leave
               </span>
               </span>
               <span class="menu-icon">
@@ -121,10 +123,10 @@
             </li>
             <!--list item ends-->
             <!--list item begins-->
-            <li class="menu-item " *ngIf="router.url == '/employee'" >
-              <a href="#" class="open-dropdown menu-link">
+            <li class="menu-item " *ngIf="!isUserAdmin">
+              <a href="#" class="open-dropdown menu-link" >
               <span class="menu-label">
-              <span class="menu-name">Add Leave
+              <span class="menu-name">View Leave
               <span class="menu-arrow"></span>
               </span>
               <span class="menu-info">Contains submenu</span>
@@ -134,11 +136,11 @@
               </span>
               </a>
               <!--submenu-->
-              <ul class="sub-menu">
-                <li class="menu-item">
-                  <a href="addleave"  class=" menu-link">
+              <ul class="sub-menu" *ngIf="!isUserAdmin">
+                <li class="menu-item" *ngIf="!isUserAdmin">
+                  <a href="view-leave" class=" menu-link"  *ngIf="!isUserAdmin">
                   <span class="menu-label">
-                  <span class="menu-name">Add Leave</span>
+                  <span class="menu-name">View Leave</span>
                   </span>
                   <span class="menu-icon">
                   <i class="icon-placeholder  ">
@@ -147,10 +149,10 @@
                   </span>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="#" class=" menu-link">
+                <!-- <li class="menu-item" *ngIf = "router.url !== '/dashboard'">
+                  <a href="viewleave" class=" menu-link" >
                   <span class="menu-label">
-                  <span class="menu-name">Menu Level 1.1</span>
+                  <span class="menu-name">View Leave</span>
                   </span>
                   <span class="menu-icon">
                   <i class="icon-placeholder  ">
@@ -158,11 +160,11 @@
                   </i>
                   </span>
                   </a>
-                </li>
+                </li> -->
               </ul>
             </li>
             <!--list item ends-->
-                      </ul>
+            </ul>
           <!-- Menu List Ends-->
 
          </div>
