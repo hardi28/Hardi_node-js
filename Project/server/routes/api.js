@@ -376,6 +376,8 @@ router.post('/empleave',(req,res)=>{
                 user_id = res[0].id;
                 empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start , endDate: end, is_approved:0, user_id: user_id } ,(req,res)=>{ 
                     console.log("Leave added", res);
+                    // startDate = ('dd/mm/yyyy');
+                    // console.log("converted date", startDate)
                 });
             });
         }
@@ -410,6 +412,21 @@ router.post('/create-admin',(req,res)=>{
             }  
         });
     
+    });
+
+});
+
+router.get('/view-all-leave',(req,response)=>{
+    var user_id = req.query.user_id;
+    // mongoose.Types.ObjectId.isValid('user_id');
+    console.log("req", req.query.user_id);
+    empLeave.find({user_id :String(user_id)} ,(req,res)=>{
+        console.log("dddd",res);
+        response.send(res)
+        // res.forEach(myFunc);
+        // function myFunc(leave){
+        //    console.log(leave);
+        // }
     });
 
 });

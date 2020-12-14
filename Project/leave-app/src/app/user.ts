@@ -8,6 +8,8 @@ export class User {
         public role : string;
         public leaveReason : string;
         public leaveType : string;
+        // public dateRange : ("dd/mm/yyyy");
         public dateRange : Date;
+
     // ){}
 }

@@ -39,7 +39,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label>Leave Date</label>
-                    <input type="text" id="dateRange" ngxDaterangepickerMd required #dateRange="ngModel" name="dateRange" class="input-daterange form-control" [(ngModel)]="userModel.dateRange" startKey="start" endKey="end" [class.has-error] ="dateRange.touched && dateRange.invalid" (change)="selectedDate($event)">
+                    <input type="text" id="dateRange" ngxDaterangepickerMd required #dateRange="ngModel" name="dateRange" class="input-daterange form-control" [(ngModel)]="userModel.dateRange" [locale]="{ format: 'DD-MM-YYYY'}" startKey="start" endKey="end" [class.has-error] ="dateRange.touched && dateRange.invalid" (change)="selectedDate($event)">
                 </div>
             </div>
             <span class="help-block text-danger">

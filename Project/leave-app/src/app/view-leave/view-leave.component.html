@@ -23,25 +23,34 @@
                                     <thead>
                                     <tr>
                                         <th>SrNo</th>
+                                        <th>Leave Reason</th>
+                                        <th>Leave Type</th>
                                         <th>Date From</th>
                                         <th>Date To</th>
                                         <th>Approved</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+                                    <tr *ngFor='let leave of leave , let i= index '>
+                                        <td>{{i+1}}</td>
+                                        <td>{{ leave.leaveReason }}</td>
+                                        <td>{{ leave.leaveType }}</td>
+                                        <td>{{ leave.startDate }}</td>
+                                        <td>{{ leave.endDate }}</td>
+                                        <td>{{ leave.is_approved }}</td>
+                                    </tr>
+                                    <!-- <li class="next">
+                                        <a href="#" aria-label="Next">
+                                          <span aria-hidden="true">&raquo;</span>
+                                          </a>
+                                    </li> -->
+                                     <!-- <tr>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
                                         <td>$320,800</td>
                                     </tr>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
+                                   <tr>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -59,15 +68,15 @@
                                         <td>2008/12/16</td>
                                         <td>$164,500</td>
                                     </tr>
-                                    </tbody>
-                                    <tfoot>
+                                    </tbody> -->
+                                    <!-- <tfoot>
                                     <tr>
                                         <th>SrNo</th>
                                         <th>Date From</th>
                                         <th>Date To</th>
                                         <th>Approved</th>
                                     </tr>
-                                    </tfoot>
+                                    </tfoot> -->
                                 </table>
                             </div>
                         </div>
@@ -76,13 +85,8 @@
             </div>
         </div>
     </section>
-<script>
-    $(document).ready(function () {
-       /*  $('#view-all-leaves').DataTable({
-            "ordering": false,
-            "searching": false,
-            "lengthChange": false,
-            "paging": false
-        }); */
-    });
-</script>
+    <script>
+        $(document).ready(function() {
+        });
+    </script>
+    
