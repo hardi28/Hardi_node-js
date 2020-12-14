@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
+declare var $ : any;
 
 @Component({
   selector: 'app-view-leave',
@@ -21,9 +22,13 @@ export class ViewLeaveComponent implements OnInit {
     const decode_token = jwtDecode<myToken>(localStorage.getItem('token'));
     console.log(decode_token);
     if(decode_token.role_id === 1){
-      this._router.navigate(['/login'])
+      this._router.navigate(['/login']);
     }
+    console.log($('#view-all-leaves'));
+    $('#view-all-leaves').DataTable({
+      "ordering": false,
+      "searching": false,
+      "lengthChange": false,
+  });
   }
-
 }
-console.log("Helllllooooo")
