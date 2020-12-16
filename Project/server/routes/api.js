@@ -26,6 +26,7 @@ router.use (cors());
 const { check, validationResult} = require('express-validator');
 const user = require('../models/user');
 const { REPL_MODE_STRICT } = require('repl');
+const { response } = require('express');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 mongoose.connect(db, { useNewUrlParser: true,useUnifiedTopology: true }, err =>{
@@ -384,7 +385,7 @@ router.post('/empleave',(req,res)=>{
             User.find({_id : user_id },(req,res)=>{
                 // console.log("user Id role...",res[0]._id);
                 user_id = res[0].id;
-                empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start_date , endDate:end_date, is_approved:0, user_id: user_id } ,(req,res)=>{ 
+                empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start , endDate:end , is_approved:0, user_id: user_id } ,(req,res)=>{ 
                     console.log("Leave added", res);
                     // startDate = ('dd/mm/yyyy');
                     // console.log("converted date", startDate)
@@ -438,6 +439,28 @@ router.get('/view-all-leave',(req,response)=>{
         //    console.log(leave);
         // }
     });
+
+});
+
+router.get('/admin-view-leave',(req,response)=>{
+    console.log("for admin view leave",req.query);
+    var now = new Date().getTime();
+    
+        empLeave.find({is_approved:false},(req,res)=>{
+            
+            res.forEach((leave_obj, index) => {
+                myFunc(leave_obj.startDate, index)
+            })
+            function myFunc(leave_start_date, index){
+                let start_date = new Date(leave_start_date).getTime();
+                if(start_date < now){
+                    // console.log("for admin leave" ,start_date, now);
+                    res.splice(index, 1);
+                }
+            }
+            response.send(res);
+          
+        });  
 
 });
 

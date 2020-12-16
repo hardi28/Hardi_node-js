@@ -13,6 +13,8 @@ export class AuthService {
   private _linkVerify = this.baseURL+"/api/random-token";
   private _submit = this.baseURL+"/api/empleave";
   private _viewAllLeave = this.baseURL+"/api/view-all-leave";
+  private _adminViewAllLeave = this.baseURL+"/api/admin-view-leave";
+
 
   constructor(private http: HttpClient ,
     private _router: Router) { }
@@ -47,6 +49,11 @@ export class AuthService {
     {
       console.log(user_id);
       return this.http.get<any>(this._viewAllLeave+"?user_id="+user_id);
+    }
+    adminViewLeave(user_id)
+    {
+      console.log(user_id);
+      return this.http.get<any>(this._adminViewAllLeave+"?user_id="+user_id);
     }
     logoutUser(){
       localStorage.removeItem('token');

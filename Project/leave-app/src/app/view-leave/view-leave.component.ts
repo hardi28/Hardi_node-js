@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
+import dateFormat from '../../../.././server/node_modules/dateformat';
 declare var $ : any;
 
 @Component({
@@ -30,13 +31,15 @@ export class ViewLeaveComponent implements OnInit {
       this._router.navigate(['/login']);
     }
 
-
     this._auth.viewLeave(this.user_id)
     .subscribe(    
       res=>{
         console.log("view Leave",res);
         this.leave = res;
-        console.log("view ,...............",this.leave.length);
+        this.leave.map((data, index) => {
+          data.startDate = dateFormat(data.startDate, "fullDate");
+          data.endDate = dateFormat(data.endDate,"fullDate");
+        })
         var tableRows = setInterval(function(e){ 
           if (res.length == $('#view-all-leaves tbody tr').length) {
             clearInterval(tableRows);

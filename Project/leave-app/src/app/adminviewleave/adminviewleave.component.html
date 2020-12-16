@@ -1,1 +1,51 @@
-<p>adminviewleave works!</p>
+<section class="admin-content">
+    <div class="bg-dark">
+        <div class="container  m-b-30">
+            <div class="row">
+                <div class="col-12 text-white p-t-40 p-b-90">
+
+                    <h4 class="">
+                        Leaves
+                     </h4>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container  pull-up">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive p-t-10">
+                            <table id="view-all-leaves" class="table" style="width:100%" *ngIf="leave.length > 0" >
+                            <!-- <table id="view-all-leaves" class="table" style="width:100%"  > -->
+
+                                <thead>
+                                <tr>
+                                    <th>SrNo</th>
+                                    <th>Leave Reason</th>
+                                    <th>Leave Type</th>
+                                    <th>Date From</th>
+                                    <th>Date To</th>
+                                    <th>Approved</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr  *ngFor='let leave of leave , let i= index '>
+                                    <td>{{i+1}}</td>
+                                    <td>{{ leave.leaveReason }}</td>
+                                    <td>{{ leave.leaveType }}</td>
+                                    <td>{{ leave.startDate }}</td>
+                                    <td>{{ leave.endDate }}</td>
+                                    <td>{{ leave.is_approved }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
