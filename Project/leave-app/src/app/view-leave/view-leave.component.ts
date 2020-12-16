@@ -36,19 +36,23 @@ export class ViewLeaveComponent implements OnInit {
       res=>{
         console.log("view Leave",res);
         this.leave = res;
-        console.log("view ,...............",this.leave);
+        console.log("view ,...............",this.leave.length);
         var tableRows = setInterval(function(e){ 
-          if ($('#view-all-leaves tr').length == this.leave.length) {
+          if (res.length == $('#view-all-leaves tbody tr').length) {
             clearInterval(tableRows);
             $('#view-all-leaves').DataTable({
               "ordering": false,
               "searching": false,
               "paging": true,
               "lengthChange": false,
-              "pageLength": 5
-            });
+              "pageLength": 2,
+              // "pagingType": "full_numbers"
+            });           
           }  
-        }, 3000);
+          else{
+            console.log("false:::::::");
+          }
+        }, 10);
       },
       err=>{
         console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",{...err});

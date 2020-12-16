@@ -1,6 +1,6 @@
 
     <!--sidebar Begins-->
-    <aside class="admin-sidebar" *ngIf="router.url !== '/login'">
+    <aside class="admin-sidebar" *ngIf="router.url !== '/login'  && router.url !== '/random'">
         <div class="admin-sidebar-brand">
           <!-- begin sidebar branding-->
           <img class="admin-brand-logo" src="assets/img/logo.svg" width="40" alt="atmos Logo">
@@ -14,13 +14,13 @@
           </div>
         </div>
         <div class="admin-sidebar-wrapper js-scrollbar">
-          <p>{{ isUserAdmin }}</p>
+          <p>{{isUserAdmin}}</p>
           <!-- Menu List Begins-->
         <!-------------------------------- ADMIN SIDEBAR ------------------------------------->
-          <ul class="menu" *ngIf="isUserAdmin">
+          <ul class="menu" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
           <!-- <ul class="menu" *ngIf="router.url !== '/employee'"> -->
             <!--list item begins-->
-            <li class="menu-item active" *ngIf="isUserAdmin">
+            <li class="menu-item active" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
               <a href="dashboard" class="menu-link" >
               <span class="menu-label">
               <span class="menu-name">Dashboard
@@ -34,7 +34,7 @@
             </li>
             <!--list item ends-->
             <!--list item begins-->
-            <li class="menu-item " *ngIf="isUserAdmin">
+            <li class="menu-item " *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
               <a href="#" class="open-dropdown menu-link">
               <span class="menu-label">
               <span class="menu-name">Add New User
@@ -47,7 +47,7 @@
               </span>
               </a>
               <!--submenu-->
-              <ul class="sub-menu" *ngIf="isUserAdmin">
+              <ul class="sub-menu" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
                 <li class="menu-item">
                   <a href="create-user"  class=" menu-link">
                   <span class="menu-label">
@@ -60,7 +60,7 @@
                   </span>
                   </a>
                 </li>
-                <li class="menu-item" *ngIf="isUserAdmin">
+                <!-- <li class="menu-item" *ngIf="isUserAdmin">
                   <a href="#" class=" menu-link" *ngIf="isUserAdmin">
                   <span class="menu-label">
                   <span class="menu-name">Menu Level 1.1</span>
@@ -71,15 +71,15 @@
                   </i>
                   </span>
                   </a>
-                </li>
+                </li> -->
               </ul>
             </li>
             <!--list item ends-->
             <!--list item begins-->
-            <li class="menu-item " *ngIf="isUserAdmin">
+            <li class="menu-item " *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
               <a href="#" class="open-dropdown menu-link">
               <span class="menu-label">
-              <span class="menu-name">Menu Level 2
+              <span class="menu-name">View Leave
               <span class="menu-arrow"></span>
               </span>
               <span class="menu-info">Contains submenu</span>
@@ -89,11 +89,11 @@
               </span>
               </a>
               <!--submenu-->
-              <ul class="sub-menu" *ngIf="isUserAdmin">
+              <ul class="sub-menu" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
                 <li class="menu-item" *ngIf="isUserAdmin">
                   <a href="#" class=" menu-link">
                   <span class="menu-label">
-                  <span class="menu-name">Menu Level 1.1</span>
+                  <span class="menu-name">View Leave</span>
                   </span>
                   <span class="menu-icon">
                   <i class="icon-placeholder  ">
@@ -107,9 +107,9 @@
             <!--list item ends-->
           </ul>
           <!------------------------------ EMPLOYEE SIDEBAR -------------------------------------->
-          <ul class="menu" *ngIf="!isUserAdmin">
+          <ul class="menu" *ngIf="!isUserAdmin &&  router.url !== '/create-password/:id'">
             <!--list item begins-->
-            <li class="menu-item active" *ngIf="!isUserAdmin">
+            <li class="menu-item active" *ngIf="!isUserAdmin &&  router.url !== '/create-password/:id'">
               <a href="employee" class="menu-link" >
               <span class="menu-label">
               <span class="menu-name">Add Leave
@@ -123,7 +123,7 @@
             </li>
             <!--list item ends-->
             <!--list item begins-->
-            <li class="menu-item " *ngIf="!isUserAdmin">
+            <li class="menu-item " *ngIf="!isUserAdmin &&  router.url !== '/create-password/:id'">
               <a href="#" class="open-dropdown menu-link" >
               <span class="menu-label">
               <span class="menu-name">View Leave
@@ -136,8 +136,8 @@
               </span>
               </a>
               <!--submenu-->
-              <ul class="sub-menu" *ngIf="!isUserAdmin">
-                <li class="menu-item" *ngIf="!isUserAdmin">
+              <ul class="sub-menu" *ngIf="!isUserAdmin &&  router.url !== '/create-password/:id'">
+                <li class="menu-item" *ngIf="!isUserAdmin &&  router.url !== '/create-password/:id'">
                   <a href="view-leave" class=" menu-link"  *ngIf="!isUserAdmin">
                   <span class="menu-label">
                   <span class="menu-name">View Leave</span>
@@ -171,7 +171,7 @@
          </aside>   
       <router-outlet></router-outlet>
       <!--sidebar Ends-->
-      <main class="admin-main" *ngIf="router.url !== '/login' &&  router.url !== '/create-password/:id'">
+      <main class="admin-main" *ngIf="router.url !== '/login' &&  router.url !== '/create-password/:id' && router.url !== '/random'">
         <!--site header begins-->
         <header class="admin-header">
           <a href="#" class="sidebar-toggle" data-toggleclass="sidebar-open" data-target="body"> </a>

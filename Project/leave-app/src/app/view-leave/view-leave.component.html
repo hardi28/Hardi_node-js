@@ -19,7 +19,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive p-t-10">
-                                <table id="view-all-leaves" class="table" style="width:100%">
+                                <table id="view-all-leaves" class="table" style="width:100%" *ngIf="leave.length > 0" >
                                     <thead>
                                     <tr>
                                         <th>SrNo</th>
@@ -31,7 +31,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr *ngFor='let leave of leave , let i= index '>
+                                    <tr  *ngFor='let leave of leave , let i= index '>
                                         <td>{{i+1}}</td>
                                         <td>{{ leave.leaveReason }}</td>
                                         <td>{{ leave.leaveType }}</td>
@@ -39,44 +39,6 @@
                                         <td>{{ leave.endDate }}</td>
                                         <td>{{ leave.is_approved }}</td>
                                     </tr>
-                                    <!-- <li class="next">
-                                        <a href="#" aria-label="Next">
-                                          <span aria-hidden="true">&raquo;</span>
-                                          </a>
-                                    </li> -->
-                                     <!-- <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                   <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Howard Hatfield</td>
-                                        <td>Office Manager</td>
-                                        <td>2008/12/16</td>
-                                        <td>$164,500</td>
-                                    </tr>
-                                    </tbody> -->
-                                    <!-- <tfoot>
-                                    <tr>
-                                        <th>SrNo</th>
-                                        <th>Date From</th>
-                                        <th>Date To</th>
-                                        <th>Approved</th>
-                                    </tr>
-                                    </tfoot> -->
                                 </table>
                             </div>
                         </div>
@@ -85,8 +47,4 @@
             </div>
         </div>
     </section>
-    <script>
-        $(document).ready(function() {
-        });
-    </script>
     

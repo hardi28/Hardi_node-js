@@ -16,6 +16,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EmployeeComponent } from './employee/employee.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { ViewLeaveComponent } from './view-leave/view-leave.component';
+import { AdminviewleaveComponent } from './adminviewleave/adminviewleave.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ViewLeaveComponent } from './view-leave/view-leave.component';
     PageNotFoundComponent,
     EmployeeComponent,
     ViewLeaveComponent,
+    AdminviewleaveComponent,
    
   ],
   imports: [

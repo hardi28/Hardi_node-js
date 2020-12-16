@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+var dateFormat = require('dateformat');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const jwt = require ('jsonwebtoken');
@@ -247,6 +248,7 @@ router.post('/random-token',async(req,res)=>{
      console.log("Currently date",currentTime);
      console.log("Token bind with url:", req.body);
      var id = req.body.id
+     console.log(id);
      await tempUser.findOne({random_token:req.body.id},(req,res)=>{
             console.log("res.....",res);
             // console.log(res.createdAt);
@@ -257,6 +259,7 @@ router.post('/random-token',async(req,res)=>{
             else {
                 if(res.is_used == true){
                     is_used = true;
+                    // is_expired = true;
                     console.log("Used")
                 }
                 else{                
@@ -351,11 +354,18 @@ router.post('/create-password',(req,res)=>{
 
 router.post('/empleave',(req,res)=>{
     console.log("For leave",req.body);
+    // var dateFormat = require('dateformat');
+    var now = new Date();
+    
+    // console.log(date_format);
     var user_id = req.body.user_info.subject;
     var leaveReason = req.body.user.leaveReason;
     var leaveType = req.body.user.leaveType;
     var start = req.body.user.dateRange.start;
+    var start_date = dateFormat(start, "fullDate");
     var end = req.body.user.dateRange.end ;
+    var end_date = dateFormat(end, "fullDate");
+    console.log(start_date, end_date);
     if(req.body.user.leaveReason == null && req.body.user.leaveType == null && (start == null || end == null) ){
         res.json({body:"Enter something!!!!!!!!!!!"});
     }
@@ -374,7 +384,7 @@ router.post('/empleave',(req,res)=>{
             User.find({_id : user_id },(req,res)=>{
                 // console.log("user Id role...",res[0]._id);
                 user_id = res[0].id;
-                empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start , endDate: end, is_approved:0, user_id: user_id } ,(req,res)=>{ 
+                empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start_date , endDate:end_date, is_approved:0, user_id: user_id } ,(req,res)=>{ 
                     console.log("Leave added", res);
                     // startDate = ('dd/mm/yyyy');
                     // console.log("converted date", startDate)

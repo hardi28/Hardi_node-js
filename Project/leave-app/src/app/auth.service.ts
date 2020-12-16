@@ -48,4 +48,8 @@ export class AuthService {
       console.log(user_id);
       return this.http.get<any>(this._viewAllLeave+"?user_id="+user_id);
     }
+    logoutUser(){
+      localStorage.removeItem('token');
+     this._router.navigate(['/login']);
+    }
 }

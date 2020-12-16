@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AdminviewleaveComponent } from './adminviewleave/adminviewleave.component';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { CreatePasswordComponent } from './create-password/create-password.component';
@@ -25,10 +26,6 @@ const routes: Routes = [
     canActivate:[AuthGuard]
   },
   {
-    path:'create-password/:id',
-    component:CreatePasswordComponent
-  },
-  {
     path:'dashboard',
     component:DashboardComponent,
     canActivate:[AuthGuard]
@@ -44,6 +41,15 @@ const routes: Routes = [
     component:ViewLeaveComponent,
     canActivate:[AuthGuard]
 
+  },
+  {
+    path:'admin-view-leave',
+    component : AdminviewleaveComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'create-password/:id',
+    component:CreatePasswordComponent
   },
    {
     path:'**',

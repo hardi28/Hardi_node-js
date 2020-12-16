@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 const leaveSchema = new Schema({
     leaveReason : String,
     leaveType : String,
-    startDate : Date,
-    endDate : Date,
+    startDate : String,
+    endDate : String,
     is_approved : Boolean,
     user_id: {type: Schema.Types.ObjectId, ref: 'emp_leave'},
 

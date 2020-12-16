@@ -23,7 +23,7 @@ export class CreatePasswordComponent implements OnInit {
   ngOnInit(): void {
     let id = (this.route.snapshot.paramMap.get('id'));
     this.tokenID = {id: id};
-    // console.log(this.tokenID);
+    console.log(this.tokenID);
     if (!this.tokenID){
       this._router.navigate(['random']);
     }
