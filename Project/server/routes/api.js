@@ -387,8 +387,6 @@ router.post('/empleave',(req,res)=>{
                 user_id = res[0].id;
                 empLeave.create({leaveReason: leaveReason ,leaveType: leaveType,startDate: start , endDate:end , is_approved:0, user_id: user_id } ,(req,res)=>{ 
                     console.log("Leave added", res);
-                    // startDate = ('dd/mm/yyyy');
-                    // console.log("converted date", startDate)
                 });
             });
         }
@@ -429,15 +427,10 @@ router.post('/create-admin',(req,res)=>{
 
 router.get('/view-all-leave',(req,response)=>{
     var user_id = req.query.user_id;
-    // mongoose.Types.ObjectId.isValid('user_id');
     console.log("req", req.query.user_id);
     empLeave.find({user_id :String(user_id)} ,(req,res)=>{
         console.log("dddd",res);
-        response.send(res)
-        // res.forEach(myFunc);
-        // function myFunc(leave){
-        //    console.log(leave);
-        // }
+        response.send(res);
     });
 
 });
@@ -447,21 +440,47 @@ router.get('/admin-view-leave',(req,response)=>{
     var now = new Date().getTime();
     
         empLeave.find({is_approved:false},(req,res)=>{
-            
-            res.forEach((leave_obj, index) => {
-                myFunc(leave_obj.startDate, index)
-            })
-            function myFunc(leave_start_date, index){
-                let start_date = new Date(leave_start_date).getTime();
-                if(start_date < now){
-                    // console.log("for admin leave" ,start_date, now);
-                    res.splice(index, 1);
+
+            let leave_response = res.filter((leave_obj) => {
+                let start_date = new Date(leave_obj.startDate).getTime();
+                if(start_date >= now){
+                    return leave_obj;// console.log("for admin leave" ,start_date, now);
                 }
-            }
-            response.send(res);
+            })
+            
+            // res.forEach((leave_obj, index) => {
+            //     myFunc(leave_obj.startDate, index)
+            // })
+            // function myFunc(leave_start_date, index){
+            //     let start_date = new Date(leave_start_date).getTime();
+            //     if(start_date < now){
+            //         // console.log("for admin leave" ,start_date, now);
+            //         res.splice(index, 1);
+            //     }
+            // }
+            // console.log(leave_response);
+            response.send(leave_response);
           
         });  
 
 });
+router.post('/admin-update-leave',(req,response)=>{
+    console.log("admin update leave",req.body);
+    // console.log("admin update leave");
+    empLeave.find({_id:req.body.leaveId},(req,res)=>{
+        console.log(res);
+        console.log("find leave here");
+        
+        empLeave.updateOne(res[0],
+            { $set: { 'is_approved': 'true'}},((res, err)=>{
+                console.log("update flag");
+                console.log(res);
+            })
+        );
+        console.log("Last");
+        console.log(res);
+        response.send(res);
+    });
+})
 
 module.exports = router;

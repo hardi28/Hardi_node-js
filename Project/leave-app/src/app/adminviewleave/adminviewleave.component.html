@@ -1,4 +1,4 @@
-<section class="admin-content">
+ <section class="admin-content">
     <div class="bg-dark">
         <div class="container  m-b-30">
             <div class="row">
@@ -19,9 +19,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive p-t-10">
-                            <table id="view-all-leaves" class="table" style="width:100%" *ngIf="leave.length > 0" >
-                            <!-- <table id="view-all-leaves" class="table" style="width:100%"  > -->
-
+                            <table id="view-all-leaves" class="table" style="width:100%"  >
                                 <thead>
                                 <tr>
                                     <th>SrNo</th>
@@ -29,23 +27,28 @@
                                     <th>Leave Type</th>
                                     <th>Date From</th>
                                     <th>Date To</th>
-                                    <th>Approved</th>
+                                    <th>Approval_status</th>
+                                    <th>Approval</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr  *ngFor='let leave of leave , let i= index '>
-                                    <td>{{i+1}}</td>
-                                    <td>{{ leave.leaveReason }}</td>
-                                    <td>{{ leave.leaveType }}</td>
-                                    <td>{{ leave.startDate }}</td>
-                                    <td>{{ leave.endDate }}</td>
-                                    <td>{{ leave.is_approved }}</td>
+                                    <!-- <div *ngFor='let row of rows; index as i;'> -->
+                                <tr *ngFor="let row of rows | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let i = index">
+                                    <td>{{(((p-1)*itemsPerPage) + (i+1))}}</td>
+                                    <td>{{ row.leaveReason }}</td>
+                                    <td>{{ row.leaveType }}</td>
+                                    <td>{{ row.startDate }}</td>
+                                    <td>{{ row.endDate }}</td>
+                                    <td class="approval">{{ row.is_approved }}</td>
+                                    <td><i class="mdi mdi-checkbox-marked-circle isApproved" 
+                                        style="font-size:22px" (click) ='isApproved(row._id, i)' ></i> 
                                 </tr>
                             </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</section> 

@@ -14,11 +14,12 @@ export class AuthService {
   private _submit = this.baseURL+"/api/empleave";
   private _viewAllLeave = this.baseURL+"/api/view-all-leave";
   private _adminViewAllLeave = this.baseURL+"/api/admin-view-leave";
-
+  private _flag = this.baseURL+"/api/admin-update-leave";
 
   constructor(private http: HttpClient ,
     private _router: Router) { }
     loginUser(user){
+      console.log(user);
       return this.http.post<any>(this._loginUrl,user);
       
     }
@@ -38,11 +39,12 @@ export class AuthService {
    } */
    checkToken(token)
    {
-    //  console.log("hhhhhhhhhhhhhhhhhhh")
+     console.log("hhhhhhhhhhhhhhhhhhh",token);
     return this.http.post<any>(this._linkVerify,token);
    }
    submit(user, user_info)
    {
+    console.log("Leave for emp",{user, user_info});
      return this.http.post<any>(this._submit,{user, user_info});
    }
    viewLeave(user_id)
@@ -59,4 +61,11 @@ export class AuthService {
       localStorage.removeItem('token');
      this._router.navigate(['/login']);
     }
+    isApproved(leaveId){
+      console.log("isappppp", leaveId);
+      console.log("URLLLLL",this._flag);
+      return this.http.post<any>(this._flag, {leaveId});
+      /* console.log(x) */;
+    }
+    
 }

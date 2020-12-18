@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
@@ -15,6 +14,8 @@ import { CreatePasswordComponent } from './create-password/create-password.compo
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { ViewLeaveComponent } from './view-leave/view-leave.component';
 import { AdminviewleaveComponent } from './adminviewleave/adminviewleave.component';
 
@@ -37,7 +38,9 @@ import { AdminviewleaveComponent } from './adminviewleave/adminviewleave.compone
     FormsModule,
     // FormControl,
     HttpClientModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    NgxDatatableModule,
+    NgxPaginationModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
