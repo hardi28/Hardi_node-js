@@ -447,18 +447,6 @@ router.get('/admin-view-leave',(req,response)=>{
                     return leave_obj;// console.log("for admin leave" ,start_date, now);
                 }
             })
-            
-            // res.forEach((leave_obj, index) => {
-            //     myFunc(leave_obj.startDate, index)
-            // })
-            // function myFunc(leave_start_date, index){
-            //     let start_date = new Date(leave_start_date).getTime();
-            //     if(start_date < now){
-            //         // console.log("for admin leave" ,start_date, now);
-            //         res.splice(index, 1);
-            //     }
-            // }
-            // console.log(leave_response);
             response.send(leave_response);
           
         });  
@@ -478,9 +466,42 @@ router.post('/admin-update-leave',(req,response)=>{
             })
         );
         console.log("Last");
-        console.log(res);
+        console.log(res[0].id);
+        if(res[0]){ 
+            empLeave.find({_id:res[0].id},(req,res)=>{
+                console.log("res",res);
+                var leaveId = res[0].user_id;
+                var leaveType = res[0].user_leaveType;
+                User.findOne({_id:leaveId},(req,user)=>{
+                    console.log("userrrrr",user);
+                    let transporter = nodemailer.createTransport({
+                        service:'gmail',
+                        auth: {
+                            user: process.env.EMAIL,
+                            pass: process.env.PASSWORD
+                        }
+                    });
+                    let mailOptions ={
+                    from:'hardi.technotery@gmail.com',
+                    to : user.email,
+                    subject:'Do not reply!!!!',
+                    text: "leaveType",
+                    };
+            
+                    transporter.sendMail(mailOptions,function(err,res){
+                        if(err){
+                            console.log(err);
+                        }else{
+                        console.log("Email sent");
+                        }
+                
+                    });  
+                })
+            })
+
+        }
         response.send(res);
     });
-})
+});
 
 module.exports = router;
