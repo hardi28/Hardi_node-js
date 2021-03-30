@@ -23,6 +23,7 @@
     "mongoose": "^5.10.11",
     "nodemailer": "^6.4.15",
     "randomstring": "^1.1.5",
+    "sweetalert": "^2.1.2",
     "validator": "^13.1.17"
   }
 }
