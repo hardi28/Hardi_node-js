@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
+import Swal from 'sweetalert2';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
 @Component({
@@ -40,18 +41,21 @@ export class EmployeeComponent implements OnInit {
     }
     this._auth.submit(this.userModel, this.user_info)
     .subscribe(    
-      res=>{
-      console.log("Response is print here",res);
-      // alert(res.dateRange);
-      this.res = res.dateRange ;
-      this.reason = res.reason;
-      this.type = res.leaveType;
-      this.emptyBody = res.body;
-    },
-    err=>{
-      console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",err);
-    }
-  )  
+        res=>{
+        console.log("Response is print here",res);
+        // alert(res.dateRange);
+        this.res = res.dateRange ;
+        Swal.fire('Cancelled', res.dateRange, 'error');
+        Swal.fire('Cancelled', res.reason, 'error');
+        Swal.fire('Cancelled', res.leaveType, 'error');
+        this.reason = res.reason;
+        this.type = res.leaveType;
+        this.emptyBody = res.body;
+      },
+      err=>{
+        console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",err);
+      }
+    )  
   }
 
   selectedDate(event) {
@@ -64,6 +68,5 @@ export class EmployeeComponent implements OnInit {
     // console.log(startKey);
 
   }
-
 }
 

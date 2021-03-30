@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,6 @@ export class AuthService {
    }
    submit(user, user_info)
    {
-    console.log("Leave for emp",{user, user_info});
     Swal.fire(  
       'Thankyou!!!',
       'User created sucessfully!!',  
