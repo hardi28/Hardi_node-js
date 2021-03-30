@@ -4,8 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { generate } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
+declare var $ : any;
 @Component({
-  selector: 'app-create-password',
+  selector: 'create-password',
   templateUrl: './create-password.component.html',
   styleUrls: ['./create-password.component.css']
 })
@@ -19,11 +20,12 @@ export class CreatePasswordComponent implements OnInit {
   constructor(private _router:Router,
               private _auth:AuthService,
               private route:ActivatedRoute) { }
-
   ngOnInit(): void {
     let id = (this.route.snapshot.paramMap.get('id'));
     this.tokenID = {id: id};
     console.log(this.tokenID);
+    $('.admin-header').remove();
+    $('.admin-sidebar').remove();
     if (!this.tokenID){
       this._router.navigate(['random']);
     }

@@ -1,6 +1,6 @@
 
     <!--sidebar Begins-->
-    <aside class="admin-sidebar" *ngIf="router.url !== '/login'  && router.url !== '/random'">
+    <aside class="admin-sidebar" *ngIf="router.url !== '/login'  && router.url !== '/random' && router.url !== '/create-password/:id'">
         <div class="admin-sidebar-brand">
           <!-- begin sidebar branding-->
           <img class="admin-brand-logo" src="assets/img/logo.svg" width="40" alt="atmos Logo">
@@ -17,7 +17,7 @@
           <p>{{isUserAdmin}}</p>
           <!-- Menu List Begins-->
         <!-------------------------------- ADMIN SIDEBAR ------------------------------------->
-          <ul class="menu" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
+          <ul class="menu" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id' && router.url !== '/create-password/:id'">
           <!-- <ul class="menu" *ngIf="router.url !== '/employee'"> -->
             <!--list item begins-->
             <li class="menu-item active" *ngIf="isUserAdmin &&  router.url !== '/create-password/:id'">
