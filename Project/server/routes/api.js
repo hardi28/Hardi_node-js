@@ -177,65 +177,70 @@ router.post('/create-user',urlencodedParser,[check('email')
             // length: 12,
           });
     //-------------------------------- Add users by admin into tempCollection---------------------------
-    User.findOne({email:userData.email},(err,res)=>{
+    User.findOne({email:userData.email},(err,respo)=>{
         // console.log("user table info",res);
-        if (res){
-            console.log("already in database:",res);
+        if (respo){
+            res.status(400).send(respo);
+            console.log("already in database:",respo);
         }
         else{
-            tempUser.findOne({email:userData.email},(err,res)=>{
-                if(!res){
+            tempUser.findOne({email:userData.email},(err,response)=>{
+                if(!response){
                     if(userData.role === "employee"){
-                        // role_id = 2;
-                        console.log("role find");
-                        role.find({role_name : userData.role},(req,res)=>{
+                    // role_id = 2;
+                    console.log("role find");
+                    console.log("hhhh",response)
+                    res.status(200).send(response);
+                        role.find({role_name : userData.role},(req,res)=> {
                             role_id = res[0]._id;
                             console.log(res);
-                    //     })
-                    // }
-                    // else if(userData.role === "admin"){
-                    //     role_id = 1;
-                    // }
-                    tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role_id: role_id,is_used:0, is_expired:0 } ,(error,user)=>{ 
-                        console.log("user" ,user.random_token);
-                        if (user){
-                            let transporter = nodemailer.createTransport({
-                                service:'gmail',
-                                auth: {
-                                    user: process.env.EMAIL,
-                                    pass: process.env.PASSWORD
-                                }
-                            });
-                            var tokenRandom = user.random_token;
-                            let mailOptions ={
-                            from:'hardi.technotery@gmail.com',
-                            to:userData.email,
-                            subject:'Login please',
-                            text:`http://localhost:4208/create-password/${tokenRandom}`
-                            };
-                    
-                            transporter.sendMail(mailOptions,function(err,res){
-                                if(err){
-                                    console.log(err);
-                                }else{
-                                console.log("Email sent");
-                                }
+                            //     })
+                            // }
+                            // else if(userData.role === "admin"){
+                            //     role_id = 1;
+                            // }
+                            tempUser.create({email:userData.email, random_token:random_token, topic: userData.topic , role_id: role_id,is_used:0, is_expired:0 } ,(error,user)=>{ 
+                            console.log("user" ,user.random_token);
+                            if (user){
+                                let transporter = nodemailer.createTransport({
+                                    service:'gmail',
+                                    auth: {
+                                        user: process.env.EMAIL,
+                                        pass: process.env.PASSWORD
+                                    }
+                                });
+                                var tokenRandom = user.random_token;
+                                let mailOptions ={
+                                from:'hardi.technotery@gmail.com',
+                                to:'hardi.technotery@gmail.com',
+                                // to:userData.email,
+                                subject:'Login please',
+                                text:`http://localhost:4208/create-password/${tokenRandom}`
+                                };
+
+                                transporter.sendMail(mailOptions,function(err,response){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                    console.log("Email sent");
+                                    }
                         
-                            });
-                        }
-                        else{
-                            console.log("Error Occurs",error)
-                        }
-                    });
-                });
-            }
+                                });
+                            }
+                            else{
+                                res.status(400).send(error);
+                                console.log("Error Occurs",error)
+                            }
+                        });
+                        });
+                    }
                 }
                 
                 else{
                     console.log("Already in database");
                 }
-                });
-            }   
+            });
+        }   
     });
     }
 });
