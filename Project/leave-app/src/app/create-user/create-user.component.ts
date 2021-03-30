@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
 import jwtDecode from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class CreateUserComponent implements OnInit {
   submitData ={};
   userModel = new User ();
   constructor(private _auth:AuthService,
+    // private _document: Document,
     private _router: Router) { }
 
   ngOnInit(): void {  
@@ -49,21 +51,37 @@ export class CreateUserComponent implements OnInit {
   }
   submitUser()
   {
-        console.log(this.userModel);
-        if(Object.keys(this.userModel).length === 0){
-        }
-        else if (!this.userModel.email){
-        }
-        else if(!this.userModel.topic){
-        }
+    console.log('lled');
+    // Swal.fire('Thank you...', 'You submitted succesfully!', 'success');
+      if(Object.keys(this.userModel).length === 0){
+      }
+      else if (!this.userModel.email){
+      }
+      else if(!this.userModel.topic){
+      }
     else
     {
       this._auth.submitUser(this.userModel)
       .subscribe(
         res => {
-          console.log("user response",res);
+          console.log("res",res);
+          if (!res) {
+            console.log("It excutes!!");  
+            Swal.fire(  
+              'Thankyou!!!',
+              'User created sucessfully!!',  
+              'success',
+            )
+            // this._document.defaultView.location.reload()   
+          }  
         },
-        err => console.log(err)
+        err =>{
+          console.log(err),
+         Swal.fire(  
+          'Cancelled',  
+          'User already register',  
+          'error');
+        }
       )
     }
   }

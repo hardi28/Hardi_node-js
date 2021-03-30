@@ -45,6 +45,12 @@ export class AuthService {
    submit(user, user_info)
    {
     console.log("Leave for emp",{user, user_info});
+    Swal.fire(  
+      'Thankyou!!!',
+      'User created sucessfully!!',  
+      'success',
+    )   
+    console.log("Leave for emp",{user, user_info});
      return this.http.post<any>(this._submit,{user, user_info});
    }
    viewLeave(user_id)
