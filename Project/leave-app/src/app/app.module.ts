@@ -18,6 +18,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ViewLeaveComponent } from './view-leave/view-leave.component';
 import { AdminviewleaveComponent } from './adminviewleave/adminviewleave.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { AdminviewleaveComponent } from './adminviewleave/adminviewleave.compone
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
     FormsModule,
     // FormControl,
     HttpClientModule,

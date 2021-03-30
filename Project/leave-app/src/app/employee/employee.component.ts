@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
 import Swal from 'sweetalert2';
+import {  NgxSpinnerService  } from "ngx-spinner";
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import * as moment from 'moment';
 @Component({
@@ -22,6 +23,7 @@ export class EmployeeComponent implements OnInit {
   private user_info;
 
   constructor(private _auth:AuthService, 
+    private spinner: NgxSpinnerService,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -35,27 +37,32 @@ export class EmployeeComponent implements OnInit {
     }
   }
   submit(){
+    this.spinner.show();
+    setTimeout(() => {
     console.log("Date range Picker",this.userModel.dateRange);
-    if(this.userModel.dateRange === null ){
-      console.log("UserModel WORKING!!")
-    }
-    this._auth.submit(this.userModel, this.user_info)
-    .subscribe(    
-        res=>{
-        console.log("Response is print here",res);
-        // alert(res.dateRange);
-        this.res = res.dateRange ;
-        Swal.fire('Cancelled', res.dateRange, 'error');
-        Swal.fire('Cancelled', res.reason, 'error');
-        Swal.fire('Cancelled', res.leaveType, 'error');
-        this.reason = res.reason;
-        this.type = res.leaveType;
-        this.emptyBody = res.body;
-      },
-      err=>{
-        console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",err);
+      if(this.userModel.dateRange === null ){
+        console.log("UserModel WORKING!!")
       }
-    )  
+      this._auth.submit(this.userModel, this.user_info)
+      .subscribe(    
+        res=>{
+          this.spinner.hide();
+          console.log("Response is print here",res);
+          // alert(res.dateRange);
+          this.res = res.dateRange ;
+          Swal.fire('Cancelled', res.dateRange, 'error');
+          Swal.fire('Cancelled', res.reason, 'error');
+          Swal.fire('Cancelled', res.leaveType, 'error');
+          this.reason = res.reason;
+          this.type = res.leaveType;
+          this.emptyBody = res.body;
+        },
+        err=>{
+          this.spinner.hide();
+          console.log("Errrrrrrrrrrrrrrrrrrrrrrrrr",err);
+        }
+      ) 
+    }, 2000);
   }
 
   selectedDate(event) {

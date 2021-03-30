@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../user';
 import jwtDecode from 'jwt-decode';
 import Swal from 'sweetalert2';
-
+import {  NgxSpinnerService  } from "ngx-spinner";
 
 @Component({
   selector: 'app-create-user',
@@ -21,19 +21,25 @@ export class CreateUserComponent implements OnInit {
   userModel = new User ();
   constructor(private _auth:AuthService,
     // private _document: Document,
+    private spinner: NgxSpinnerService,
     private _router: Router) { }
 
   ngOnInit(): void {  
-   if(!localStorage.getItem('token')){
-    this._router.navigate(['/login'])
-   }
-  interface myToken {
-    role_id: number;
-  }
-  const decode_token = jwtDecode<myToken>(localStorage.getItem('token'));
-    if(decode_token.role_id === 2){
-      this._router.navigate(['/login'])
-    }
+    // this.spinner.show();
+
+    // setTimeout(() => {
+      if(!localStorage.getItem('token')){
+        this._router.navigate(['/login'])
+      }
+      interface myToken {
+        role_id: number;
+      }
+      const decode_token = jwtDecode<myToken>(localStorage.getItem('token'));
+        if(decode_token.role_id === 2){
+          this._router.navigate(['/login'])
+        }
+    // this.spinner.hide();
+    // }, 2000);
   }
   validateTopic(value){
     if(value === 'default'){
@@ -51,8 +57,10 @@ export class CreateUserComponent implements OnInit {
   }
   submitUser()
   {
-    console.log('lled');
-    // Swal.fire('Thank you...', 'You submitted succesfully!', 'success');
+    this.spinner.show();
+    setTimeout(() => {
+      console.log('lled');
+      // Swal.fire('Thank you...', 'You submitted succesfully!', 'success');
       if(Object.keys(this.userModel).length === 0){
       }
       else if (!this.userModel.email){
@@ -77,13 +85,15 @@ export class CreateUserComponent implements OnInit {
         },
         err =>{
           console.log(err),
-         Swal.fire(  
+        Swal.fire(  
           'Cancelled',  
           'User already register',  
           'error');
         }
       )
     }
+    this.spinner.hide();
+    },2000);
   }
   // loggedIn(){
   //   return !!localStorage.getItem('token')

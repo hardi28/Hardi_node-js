@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import {  NgxSpinnerService  } from "ngx-spinner";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class AuthService {
   private _flag = this.baseURL+"/api/admin-update-leave";
 
   constructor(private http: HttpClient ,
-    private _router: Router) { }
+    private _router: Router,
+    private spinner: NgxSpinnerService) { }
     loginUser(user){
       console.log(user);
       return this.http.post<any>(this._loginUrl,user);
@@ -45,6 +47,7 @@ export class AuthService {
    }
    submit(user, user_info)
    {
+    this.spinner.hide();
     Swal.fire(  
       'Thankyou!!!',
       'User created sucessfully!!',  

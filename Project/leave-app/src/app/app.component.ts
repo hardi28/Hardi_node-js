@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { User } from './user';
+import {  NgxSpinnerService  } from "ngx-spinner";
 
 
 import { Router,ActivatedRoute } from '@angular/router';
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit  {
   userModel = new User ();
 
 
-  constructor(public router: Router, private _auth:AuthService, private route:ActivatedRoute){
+  constructor(public router: Router, private _auth:AuthService, private route:ActivatedRoute, private spinner: NgxSpinnerService){
     console.log('Inside constructor');
     console.log(this.tokenID);
     console.log(router);
@@ -38,15 +39,20 @@ export class AppComponent implements OnInit  {
   } 
 
   ngOnInit(): void{
-    if (this.tokenID) {
-      interface myToken {
-        role_id: number;
+    this.spinner.show();
+
+    setTimeout(() => {
+        if (this.tokenID) {
+          interface myToken {
+            role_id: number;
+          }
+        const decode_token = jwt_decode<myToken>(this.tokenID);
+            if (decode_token.role_id === 1) {
+              this.isUserAdmin = true;
+            }
       }
-    const decode_token = jwt_decode<myToken>(this.tokenID);
-        if (decode_token.role_id === 1) {
-          this.isUserAdmin = true;
-        }
-  }
+      this.spinner.hide();
+    },1000)
 }
 
   logoutUser(){
